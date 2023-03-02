@@ -1,0 +1,34 @@
+version: '3'
+services:
+  redis:
+    image: redis
+    container_name: psyq-redis
+    restart: always
+    volumes:
+      - ./redis:/data
+    environment:
+      - REDIS_PASSWORD=123456
+    networks:
+      - psyq-net
+    ports:
+      - "6399:6379"
+    env_file: .env
+  mysql:
+    image: mysql
+    container_name: psyq-mysql
+    restart: always
+    networks:
+      - psyq-net
+    ports:
+      - "3309:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: root123
+    env_file: .env
+    command: --authentication_policy=mysql_native_password
+
+networks:
+  psyq-net:
+    external: false

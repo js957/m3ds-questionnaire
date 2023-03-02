@@ -1,0 +1,67 @@
+spring:
+  application:
+    name: que-api
+  profiles:
+    active: dev
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+server:
+  port: 8999
+  servlet:
+    context-path: /que-api
+
+# 日志级别
+logging:
+  level:
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: debug
+    com.tduck.cloud: debug
+
+mybatis-plus:
+  mapper-locations: classpath*:mapper/**/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  global-config:
+    # 数据库相关配置
+    db-config:
+      logic-delete-field: deleted  # 全局逻辑删除的实体字段名(since 3.3.0,配置后可以忽略不配置步骤2)
+      logic-delete-value: 0 # 逻辑已删除值(默认为 0)
+      logic-not-delete-value: 1 # 逻辑未删除值(默认为 1)
+      update-strategy: not_empty
+  # 原生配置
+  configuration:
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+
+
+#  请求日志是否打印
+platform:
+  request:
+    trace-log: false
+  sign:
+    enable: false
+    secret: 916lWh2WMcbSWiHv
+    ignore-urls:
+      - /que-api/**
+      - /**/*.js
+      - /**/*.css
+      - /**/*.png
+      - /**/*.ico
+  jwt:
+    # 加密秘钥
+    secret: f6f31a5f2136758f86b67cde583cb125
+    # token有效时长，7天，单位秒
+    expire: 604800
+    header: token
+
+
+aj:
+  captcha:
+    enable: true
+    water-mark: tduck
+    cache-type: redis

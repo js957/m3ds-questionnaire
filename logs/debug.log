@@ -1,0 +1,93 @@
+2023-03-02 21:30:20,973 [background-preinit] INFO  [org.hibernate.validator.internal.util.Version] Version.java:21 - HV000001: Hibernate Validator 6.1.6.Final
+2023-03-02 21:30:20,988 [main] INFO  [com.m3ds.que.api.QueApiApplication] StartupInfoLogger.java:55 - Starting QueApiApplication on js with PID 31804 (E:\GitHub\m3ds-questionnaire\que-api\target\classes started by JS in E:\GitHub\m3ds-questionnaire)
+2023-03-02 21:30:20,989 [main] DEBUG [com.m3ds.que.api.QueApiApplication] StartupInfoLogger.java:56 - Running with Spring Boot v2.3.5.RELEASE, Spring v5.2.10.RELEASE
+2023-03-02 21:30:20,989 [main] INFO  [com.m3ds.que.api.QueApiApplication] SpringApplication.java:655 - The following profiles are active: dev
+2023-03-02 21:30:21,209 [main] WARN  [o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext] AbstractApplicationContext.java:559 - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [com.m3ds.que.api.QueApiApplication]; nested exception is org.springframework.context.annotation.ConflictingBeanDefinitionException: Annotation-specified bean name 'redisConfig' for bean class [com.m3ds.que.common.web.redis.RedisConfig] conflicts with existing, non-compatible bean definition of same name and class [com.m3ds.que.api.config.RedisConfig]
+2023-03-02 21:30:21,325 [main] INFO  [o.s.b.a.l.ConditionEvaluationReportLoggingListener] ConditionEvaluationReportLoggingListener.java:136 - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2023-03-02 21:30:21,337 [main] ERROR [org.springframework.boot.SpringApplication] SpringApplication.java:837 - Application run failed
+org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [com.m3ds.que.api.QueApiApplication]; nested exception is org.springframework.context.annotation.ConflictingBeanDefinitionException: Annotation-specified bean name 'redisConfig' for bean class [com.m3ds.que.common.web.redis.RedisConfig] conflicts with existing, non-compatible bean definition of same name and class [com.m3ds.que.api.config.RedisConfig]
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:189)
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:319)
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:236)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:280)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:96)
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:707)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:533)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:143)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:758)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:750)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:405)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at com.m3ds.que.api.QueApiApplication.main(QueApiApplication.java:14)
+Caused by: org.springframework.context.annotation.ConflictingBeanDefinitionException: Annotation-specified bean name 'redisConfig' for bean class [com.m3ds.que.common.web.redis.RedisConfig] conflicts with existing, non-compatible bean definition of same name and class [com.m3ds.que.api.config.RedisConfig]
+	at org.springframework.context.annotation.ClassPathBeanDefinitionScanner.checkCandidate(ClassPathBeanDefinitionScanner.java:349)
+	at org.springframework.context.annotation.ClassPathBeanDefinitionScanner.doScan(ClassPathBeanDefinitionScanner.java:287)
+	at org.springframework.context.annotation.ComponentScanAnnotationParser.parse(ComponentScanAnnotationParser.java:132)
+	at org.springframework.context.annotation.ConfigurationClassParser.doProcessConfigurationClass(ConfigurationClassParser.java:296)
+	at org.springframework.context.annotation.ConfigurationClassParser.processConfigurationClass(ConfigurationClassParser.java:250)
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:207)
+	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:175)
+	... 14 common frames omitted
+2023-03-02 21:33:43,660 [background-preinit] INFO  [org.hibernate.validator.internal.util.Version] Version.java:21 - HV000001: Hibernate Validator 6.1.6.Final
+2023-03-02 21:33:43,667 [main] INFO  [com.m3ds.que.api.QueApiApplication] StartupInfoLogger.java:55 - Starting QueApiApplication on js with PID 33904 (E:\GitHub\m3ds-questionnaire\que-api\target\classes started by JS in E:\GitHub\m3ds-questionnaire)
+2023-03-02 21:33:43,668 [main] DEBUG [com.m3ds.que.api.QueApiApplication] StartupInfoLogger.java:56 - Running with Spring Boot v2.3.5.RELEASE, Spring v5.2.10.RELEASE
+2023-03-02 21:33:43,668 [main] INFO  [com.m3ds.que.api.QueApiApplication] SpringApplication.java:655 - The following profiles are active: dev
+2023-03-02 21:33:44,581 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] RepositoryConfigurationDelegate.java:249 - Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-03-02 21:33:44,583 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] RepositoryConfigurationDelegate.java:127 - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-03-02 21:33:44,610 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] RepositoryConfigurationDelegate.java:187 - Finished Spring Data repository scanning in 14ms. Found 0 Redis repository interfaces.
+2023-03-02 21:33:45,079 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] TomcatWebServer.java:108 - Tomcat initialized with port(s): 8999 (http)
+2023-03-02 21:33:45,087 [main] INFO  [org.apache.coyote.http11.Http11NioProtocol] DirectJDKLog.java:173 - Initializing ProtocolHandler ["http-nio-8999"]
+2023-03-02 21:33:45,088 [main] INFO  [org.apache.catalina.core.StandardService] DirectJDKLog.java:173 - Starting service [Tomcat]
+2023-03-02 21:33:45,088 [main] INFO  [org.apache.catalina.core.StandardEngine] DirectJDKLog.java:173 - Starting Servlet engine: [Apache Tomcat/9.0.39]
+2023-03-02 21:33:45,221 [main] INFO  [o.a.c.c.C.[Tomcat].[localhost].[/que-api]] DirectJDKLog.java:173 - Initializing Spring embedded WebApplicationContext
+2023-03-02 21:33:45,222 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] ServletWebServerApplicationContext.java:285 - Root WebApplicationContext: initialization completed in 1524 ms
+2023-03-02 21:33:48,391 [main] DEBUG [o.s.w.s.m.m.a.RequestMappingHandlerMapping] AbstractHandlerMethodMapping.java:351 - 9 mappings in 'requestMappingHandlerMapping'
+2023-03-02 21:33:48,422 [main] INFO  [c.a.c.config.AjCaptchaServiceAutoConfiguration] AjCaptchaServiceAutoConfiguration.java:33 - 自定义配置项：
+AjCaptchaProperties{type=DEFAULT, jigsaw='', picClick='', waterMark='tduck', waterFont='WenQuanZhengHei.ttf', fontType='WenQuanZhengHei.ttf', slipOffset='5', aesStatus=true, interferenceOptions='0', cacheNumber='1000', timingClear='180', cacheType=redis, reqFrequencyLimitEnable=false, reqGetLockLimit=5, reqGetLockSeconds=300, reqGetMinuteLimit=100, reqCheckMinuteLimit=100, reqVerifyMinuteLimit=100}
+2023-03-02 21:33:48,425 [main] INFO  [c.anji.captcha.service.impl.CaptchaServiceFactory] CaptchaServiceFactory.java:52 - supported-captchaCache-service:[local]
+2023-03-02 21:33:48,428 [main] INFO  [c.anji.captcha.service.impl.CaptchaServiceFactory] CaptchaServiceFactory.java:58 - supported-captchaTypes-service:[clickWord, default, blockPuzzle]
+2023-03-02 21:33:48,448 [main] INFO  [com.anji.captcha.util.ImageUtils] ImageUtils.java:48 - 初始化底图:[SLIDING_BLOCK=[Ljava.lang.String;@4e958f08, ORIGINAL=[Ljava.lang.String;@71c0b742, PIC_CLICK=[Ljava.lang.String;@3bbb8c16]
+2023-03-02 21:33:48,448 [main] INFO  [c.a.c.service.impl.ClickWordCaptchaServiceImpl] AbstractCaptchaService.java:76 - --->>>初始化验证码底图<<<---clickWord
+2023-03-02 21:33:48,839 [main] INFO  [com.anji.captcha.util.ImageUtils] ImageUtils.java:48 - 初始化底图:[SLIDING_BLOCK=[Ljava.lang.String;@67d8faec, ORIGINAL=[Ljava.lang.String;@751d7425, PIC_CLICK=[Ljava.lang.String;@7eaa2bc6]
+2023-03-02 21:33:48,839 [main] INFO  [c.a.c.service.impl.BlockPuzzleCaptchaServiceImpl] AbstractCaptchaService.java:76 - --->>>初始化验证码底图<<<---blockPuzzle
+2023-03-02 21:33:49,050 [main] INFO  [o.s.scheduling.concurrent.ThreadPoolTaskExecutor] ExecutorConfigurationSupport.java:181 - Initializing ExecutorService 'applicationTaskExecutor'
+2023-03-02 21:33:49,256 [main] INFO  [org.apache.coyote.http11.Http11NioProtocol] DirectJDKLog.java:173 - Starting ProtocolHandler ["http-nio-8999"]
+2023-03-02 21:33:49,276 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] TomcatWebServer.java:220 - Tomcat started on port(s): 8999 (http) with context path '/que-api'
+2023-03-02 21:33:49,308 [main] INFO  [com.m3ds.que.api.QueApiApplication] StartupInfoLogger.java:61 - Started QueApiApplication in 5.978 seconds (JVM running for 7.762)
+2023-03-02 21:46:06,440 [SpringContextShutdownHook] INFO  [o.s.scheduling.concurrent.ThreadPoolTaskExecutor] ExecutorConfigurationSupport.java:218 - Shutting down ExecutorService 'applicationTaskExecutor'
+2023-03-02 21:46:06,441 [SpringContextShutdownHook] DEBUG [com.m3ds.que.common.core.util.SpringContextUtils] SpringContextUtils.java:58 - 清除SpringContextHolder中的ApplicationContext:org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext@606e4010, started on Thu Mar 02 21:33:43 CST 2023
+2023-03-02 21:46:12,389 [background-preinit] INFO  [org.hibernate.validator.internal.util.Version] Version.java:21 - HV000001: Hibernate Validator 6.1.6.Final
+2023-03-02 21:46:12,395 [main] INFO  [com.m3ds.que.api.QueApiApplication] StartupInfoLogger.java:55 - Starting QueApiApplication on js with PID 32572 (E:\GitHub\m3ds-questionnaire\que-api\target\classes started by JS in E:\GitHub\m3ds-questionnaire)
+2023-03-02 21:46:12,395 [main] DEBUG [com.m3ds.que.api.QueApiApplication] StartupInfoLogger.java:56 - Running with Spring Boot v2.3.5.RELEASE, Spring v5.2.10.RELEASE
+2023-03-02 21:46:12,395 [main] INFO  [com.m3ds.que.api.QueApiApplication] SpringApplication.java:655 - The following profiles are active: dev
+2023-03-02 21:46:13,245 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] RepositoryConfigurationDelegate.java:249 - Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-03-02 21:46:13,247 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] RepositoryConfigurationDelegate.java:127 - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-03-02 21:46:13,274 [main] INFO  [o.s.d.r.config.RepositoryConfigurationDelegate] RepositoryConfigurationDelegate.java:187 - Finished Spring Data repository scanning in 15ms. Found 0 Redis repository interfaces.
+2023-03-02 21:46:13,701 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] TomcatWebServer.java:108 - Tomcat initialized with port(s): 8999 (http)
+2023-03-02 21:46:13,708 [main] INFO  [org.apache.coyote.http11.Http11NioProtocol] DirectJDKLog.java:173 - Initializing ProtocolHandler ["http-nio-8999"]
+2023-03-02 21:46:13,708 [main] INFO  [org.apache.catalina.core.StandardService] DirectJDKLog.java:173 - Starting service [Tomcat]
+2023-03-02 21:46:13,708 [main] INFO  [org.apache.catalina.core.StandardEngine] DirectJDKLog.java:173 - Starting Servlet engine: [Apache Tomcat/9.0.39]
+2023-03-02 21:46:13,835 [main] INFO  [o.a.c.c.C.[Tomcat].[localhost].[/que-api]] DirectJDKLog.java:173 - Initializing Spring embedded WebApplicationContext
+2023-03-02 21:46:13,836 [main] INFO  [o.s.b.w.s.c.ServletWebServerApplicationContext] ServletWebServerApplicationContext.java:285 - Root WebApplicationContext: initialization completed in 1407 ms
+2023-03-02 21:46:16,880 [main] DEBUG [o.s.w.s.m.m.a.RequestMappingHandlerMapping] AbstractHandlerMethodMapping.java:351 - 10 mappings in 'requestMappingHandlerMapping'
+2023-03-02 21:46:16,908 [main] INFO  [c.a.c.config.AjCaptchaServiceAutoConfiguration] AjCaptchaServiceAutoConfiguration.java:33 - 自定义配置项：
+AjCaptchaProperties{type=DEFAULT, jigsaw='', picClick='', waterMark='tduck', waterFont='WenQuanZhengHei.ttf', fontType='WenQuanZhengHei.ttf', slipOffset='5', aesStatus=true, interferenceOptions='0', cacheNumber='1000', timingClear='180', cacheType=redis, reqFrequencyLimitEnable=false, reqGetLockLimit=5, reqGetLockSeconds=300, reqGetMinuteLimit=100, reqCheckMinuteLimit=100, reqVerifyMinuteLimit=100}
+2023-03-02 21:46:16,910 [main] INFO  [c.anji.captcha.service.impl.CaptchaServiceFactory] CaptchaServiceFactory.java:52 - supported-captchaCache-service:[local]
+2023-03-02 21:46:16,913 [main] INFO  [c.anji.captcha.service.impl.CaptchaServiceFactory] CaptchaServiceFactory.java:58 - supported-captchaTypes-service:[clickWord, default, blockPuzzle]
+2023-03-02 21:46:16,930 [main] INFO  [com.anji.captcha.util.ImageUtils] ImageUtils.java:48 - 初始化底图:[SLIDING_BLOCK=[Ljava.lang.String;@71c0b742, ORIGINAL=[Ljava.lang.String;@3bbb8c16, PIC_CLICK=[Ljava.lang.String;@73e1ecd0]
+2023-03-02 21:46:16,930 [main] INFO  [c.a.c.service.impl.ClickWordCaptchaServiceImpl] AbstractCaptchaService.java:76 - --->>>初始化验证码底图<<<---clickWord
+2023-03-02 21:46:17,142 [main] INFO  [com.anji.captcha.util.ImageUtils] ImageUtils.java:48 - 初始化底图:[SLIDING_BLOCK=[Ljava.lang.String;@751d7425, ORIGINAL=[Ljava.lang.String;@7eaa2bc6, PIC_CLICK=[Ljava.lang.String;@6dae70f9]
+2023-03-02 21:46:17,142 [main] INFO  [c.a.c.service.impl.BlockPuzzleCaptchaServiceImpl] AbstractCaptchaService.java:76 - --->>>初始化验证码底图<<<---blockPuzzle
+2023-03-02 21:46:17,348 [main] INFO  [o.s.scheduling.concurrent.ThreadPoolTaskExecutor] ExecutorConfigurationSupport.java:181 - Initializing ExecutorService 'applicationTaskExecutor'
+2023-03-02 21:46:17,547 [main] INFO  [org.apache.coyote.http11.Http11NioProtocol] DirectJDKLog.java:173 - Starting ProtocolHandler ["http-nio-8999"]
+2023-03-02 21:46:17,565 [main] INFO  [o.s.boot.web.embedded.tomcat.TomcatWebServer] TomcatWebServer.java:220 - Tomcat started on port(s): 8999 (http) with context path '/que-api'
+2023-03-02 21:46:17,710 [main] INFO  [com.m3ds.que.api.QueApiApplication] StartupInfoLogger.java:61 - Started QueApiApplication in 5.654 seconds (JVM running for 7.474)
+2023-03-02 21:47:20,988 [http-nio-8999-exec-9] INFO  [o.a.c.c.C.[Tomcat].[localhost].[/que-api]] DirectJDKLog.java:173 - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-03-02 21:47:20,989 [http-nio-8999-exec-9] INFO  [org.springframework.web.servlet.DispatcherServlet] FrameworkServlet.java:525 - Initializing Servlet 'dispatcherServlet'
+2023-03-02 21:47:20,996 [http-nio-8999-exec-9] INFO  [org.springframework.web.servlet.DispatcherServlet] FrameworkServlet.java:547 - Completed initialization in 7 ms
+2023-03-02 21:47:21,021 [http-nio-8999-exec-9] DEBUG [o.s.w.s.m.m.a.RequestMappingHandlerMapping] AbstractHandlerMapping.java:415 - Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#errorHtml(HttpServletRequest, HttpServletResponse)
+2023-03-02 21:47:28,523 [http-nio-8999-exec-6] DEBUG [o.s.w.s.m.m.a.RequestMappingHandlerMapping] AbstractHandlerMapping.java:415 - Mapped to com.m3ds.que.api.web.controller.AdministratorController#test(String)
