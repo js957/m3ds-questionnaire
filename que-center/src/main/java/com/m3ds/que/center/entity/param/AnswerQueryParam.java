@@ -30,9 +30,9 @@ public class AnswerQueryParam extends BaseParam<Answer> {
     @Override
     public QueryWrapper<Answer> build() {
         QueryWrapper<Answer> queryWrapper = super.build();
-        queryWrapper.eq("sub_id", this.subId);
-        queryWrapper.eq("que_id", this.queId);
-        queryWrapper.eq("type", this.type);
+        queryWrapper.eq(this.subId != null, "sub_id", this.subId);
+        queryWrapper.eq(this.queId != null, "que_id", this.queId);
+        queryWrapper.eq(this.type != null, "type", this.type);
         return queryWrapper;
     }
 

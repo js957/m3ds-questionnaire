@@ -21,11 +21,5 @@ public class TemplateQueryForm extends BaseQueryForm<TemplateQueryParam> {
     @ApiModelProperty(value = "模板名")
     private String templateName;
 
-    /**
-     * 模板介绍
-     */
-    @ApiModelProperty(value = "模板介绍")
-    private String description;
-
 
 }

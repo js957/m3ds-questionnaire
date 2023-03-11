@@ -18,10 +18,6 @@ public class TemplateQueryParam extends BaseParam<Template> {
      */
     private String templateName;
 
-    /**
-     * 模板介绍
-     */
-    private String description;
 
     @Override
     public QueryWrapper<Template> build() {
