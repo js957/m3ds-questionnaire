@@ -1,7 +1,6 @@
 package com.m3ds.que.center.entity.vo;
 
 
-import com.m3ds.que.center.entity.po.Answer;
 import com.m3ds.que.center.entity.po.Template;
 import lombok.Data;
 import lombok.NoArgsConstructor;
