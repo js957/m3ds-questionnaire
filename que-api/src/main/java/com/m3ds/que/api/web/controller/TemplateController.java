@@ -13,6 +13,7 @@ import com.m3ds.que.common.core.vo.Result;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -43,7 +44,11 @@ public class TemplateController {
     @ApiImplicitParam(paramType = "path", name = "id", value = "回答模板id", required = true, dataType = "string")
     @GetMapping("/{id}")
     public Result get(@PathVariable String id) {
-        return Result.success(new TemplateVo(templateServiceImpl.getById(id)));
+        Template template = templateServiceImpl.getById(id);
+        if (template == null) {
+            return Result.fail("找不到指定数据！");
+        }
+        return Result.success(new TemplateVo(template));
     }
 
     /**
@@ -56,7 +61,7 @@ public class TemplateController {
     @ApiOperation(value = "分页查询回答模板", notes = "带参数分页查询回答模板")
     @ApiImplicitParam(paramType = "body", name = "templateQueryForm", value = "回答模板的实体", required = true, dataType = "TemplateQueryForm")
     @PostMapping("/conditions")
-    public Result search(@Valid @RequestBody TemplateQueryForm templateQueryForm) {
+    public Result conditions(@RequestBody @Valid TemplateQueryForm templateQueryForm) {
         QueryWrapper<Template> queryWrapper = templateQueryForm.toParam(TemplateQueryParam.class).build();
         Page page = templateServiceImpl.page(templateQueryForm.getPage(), queryWrapper);
         return Result.success(page.setRecords((List) page.getRecords().stream().map(t -> new TemplateVo((Template) t)).collect(Collectors.toList())));
@@ -72,7 +77,7 @@ public class TemplateController {
     @ApiOperation(value = "带查询条件查询回答模板", notes = "带查询条件查询回答模板")
     @ApiImplicitParam(paramType = "query", name = "templateQueryParam", value = "回答模板的实体", required = true, dataType = "TemplateQueryParam")
     @GetMapping
-    public Result query(@RequestParam TemplateQueryParam templateQueryParam) {
+    public Result query(@Valid TemplateQueryParam templateQueryParam) {
         QueryWrapper<Template> queryWrapper = templateQueryParam.build();
         return Result.success((templateServiceImpl.list(queryWrapper).stream().map(TemplateVo::new)).collect(Collectors.toList()));
     }
@@ -87,7 +92,7 @@ public class TemplateController {
     @ApiOperation(value = "保存回答模板", notes = "保存回答模板")
     @ApiImplicitParam(paramType = "body", name = "templateForm", value = "回答模板的实体", required = true, dataType = "TemplateForm")
     @PostMapping
-    public Result save(@RequestBody TemplateForm templateForm) {
+    public Result save(@RequestBody @Valid TemplateForm templateForm) {
         Template template = templateForm.toPo(Template.class);
         templateServiceImpl.save(template);
         return Result.success();
@@ -106,7 +111,7 @@ public class TemplateController {
             @ApiImplicitParam(paramType = "body", name = "templateForm", value = "回答模板实体", required = true, dataType = "TemplateForm")
     })
     @PutMapping(value = "/{id}")
-    public Result update(@PathVariable String id, @Valid @RequestBody TemplateForm templateForm) {
+    public Result update(@PathVariable String id, @RequestBody @Valid TemplateForm templateForm) {
         Template template = templateForm.toPo(Template.class);
         template.setId(id);
         templateServiceImpl.updateById(template);
@@ -128,18 +133,4 @@ public class TemplateController {
         return Result.success();
     }
 
-    /**
-     * @param ids 回答模板的id列表
-     * @return com.m3ds.que.common.core.vo.Result
-     * @author tangzheng
-     * @date 2023/3/10 16:57
-     * @description 批量删除回答模板
-     */
-    @ApiOperation(value = "批量删除回答模板", notes = "根据多个id批量删除回答模板")
-    @ApiImplicitParam(paramType = "body", name = "ids", value = "要删除的回答模板id们", required = true, dataType = "string")
-    @PostMapping("/del/batch")
-    public Result deleteBatch(@RequestBody List<Integer> ids) {
-        templateServiceImpl.removeByIds(ids);
-        return Result.success();
-    }
 }
