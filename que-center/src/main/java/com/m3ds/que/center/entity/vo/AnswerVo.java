@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
+import java.util.Map;
+
 /**
  * tangzheng
  * 问卷结果Vo类
@@ -13,7 +15,7 @@ import org.springframework.beans.BeanUtils;
 @NoArgsConstructor
 public class AnswerVo {
 
-    public AnswerVo(Answer answer){
+    public AnswerVo(Answer answer) {
         BeanUtils.copyProperties(answer, this);
     }
 
@@ -23,24 +25,18 @@ public class AnswerVo {
     private String subId;
 
     /**
-     * 问题id
+     * 诊断模块id
      */
-    private String queId;
+    private String moduleId;
 
     /**
-     * 问题提交答案0，	诊断框提交答案1，	问题子问题提交答案2，	诊断框子问题提交答案3
+     * 模块编号，如A
      */
-    private Integer type;
+    private String moduleNo;
 
     /**
-     * 提交结果代表的含义
+     * 结果集合，示例{'1001':{'label':'是','value':1,'type':0},'1002':...}
      */
-    private String description;
-
-    /**
-     * 选项结果(默认0为否，是为1，分数为分数,输入为输入数)
-     */
-    private String result;
-
+    private Map<String, Object> queResult;
 
 }

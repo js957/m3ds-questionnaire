@@ -1,20 +1,21 @@
 package com.m3ds.que.center.entity.po;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.m3ds.que.common.web.entity.po.BasePo;
+import com.m3ds.que.common.web.handler.JacksonTypeHandler;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.Map;
+
 /**
- * <p>
- * 
- * </p>
- *
- * @author wjs
- * @since 2023-02-26
+ * tangzheng
+ * 回答结果实体类，存储一整个模块的结果
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@TableName(value = "answer", autoResultMap = true)
 public class Answer extends BasePo<Answer> {
 
     private static final long serialVersionUID = 1L;
@@ -25,24 +26,19 @@ public class Answer extends BasePo<Answer> {
     private String subId;
 
     /**
-     * 问题id
+     * 诊断模块id
      */
-    private String queId;
+    private String moduleId;
 
     /**
-     * 问题提交答案0，	诊断框提交答案1，	问题子问题提交答案2，	诊断框子问题提交答案3
+     * 模块编号，如A
      */
-    private Integer type;
+    private String moduleNo;
 
     /**
-     * 提交结果代表的含义
+     * 结果集合，示例{'1001':{'label':'是','value':1,'type':0},'1002':...}
      */
-    private String description;
-
-    /**
-     * 选项结果(默认0为否，是为1，分数为分数,输入为输入数)
-     */
-    private String result;
-
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private Map<String, Object> queResult;
 
 }

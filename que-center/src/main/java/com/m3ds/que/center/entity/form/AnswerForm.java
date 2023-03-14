@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import java.util.Map;
 
 /**
  * tangzheng
@@ -25,30 +25,23 @@ public class AnswerForm extends BaseForm<Answer> {
     private String subId;
 
     /**
-     * 问题id
+     * 模块id
      */
-    @NotBlank(message = "数据异常:无问题信息")
-    @ApiModelProperty(value = "问题id")
-    private String queId;
+    @NotBlank(message = "数据异常:无模块信息")
+    @ApiModelProperty(value = "模块id")
+    private String moduleId;
 
     /**
-     * 0:问题提交答案，1:诊断框提交答案，2:问题子问题提交答案，3:诊断框子问题提交答案
+     * 模块编号，如A
      */
-    @ApiModelProperty(value = "默认0:问题提交答案，1:诊断框提交答案，2:问题子问题提交答案，3:诊断框子问题提交答案")
-    private Integer type;
+    @NotBlank(message = "数据异常:模块信息不完整")
+    @ApiModelProperty(value = "模块编号")
+    private String moduleNo;
 
     /**
-     * 提交结果代表的含义
+     * 结果集合，示例{'1001':{'label':'是','value':1,'type':0},'1002':...}
      */
-    @ApiModelProperty(value = "提交结果代表的含义")
-    private String description;
-
-    /**
-     * 选项结果(默认0为否，是为1，分数为分数,输入为输入数)
-     */
-    @NotNull(message = "选项结果不能为空")
-    @ApiModelProperty(value = "默认0为否，是为1，分数为分数,输入为输入数")
-    private String result;
-
+    @ApiModelProperty(value = "该模块的回答结果")
+    private Map<String, Object> queResult;
 
 }

@@ -21,17 +21,9 @@ public class AnswerQueryForm extends BaseQueryForm<AnswerQueryParam> {
     private String subId;
 
     /**
-     * 问题id
+     * 模块id
      */
-    @ApiModelProperty(value = "问题id")
-    private String queId;
-
-    /**
-     * 问题提交答案0，	诊断框提交答案1，	问题子问题提交答案2，	诊断框子问题提交答案3
-     */
-    @ApiModelProperty(value = "默认0:问题提交答案，1:诊断框提交答案，2:问题子问题提交答案，3:诊断框子问题提交答案")
-    private Integer type;
-
-
+    @ApiModelProperty(value = "模块id")
+    private String moduleId;
 
 }
