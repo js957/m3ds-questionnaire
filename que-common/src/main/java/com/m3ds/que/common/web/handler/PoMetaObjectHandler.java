@@ -30,13 +30,13 @@ public class PoMetaObjectHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         this.setFieldValByName(BasePo.Fields.createdBy, getCurrentUsername(), metaObject);
-        this.setFieldValByName(BasePo.Fields.createdTime, LocalDateTime.now(), metaObject);
+        this.setFieldValByName(BasePo.Fields.createdTime, new Date(), metaObject);
         this.updateFill(metaObject);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
         this.setFieldValByName(BasePo.Fields.updatedBy, getCurrentUsername(), metaObject);
-        this.setFieldValByName(BasePo.Fields.updatedTime, LocalDateTime.now(), metaObject);
+        this.setFieldValByName(BasePo.Fields.updatedTime, new Date(), metaObject);
     }
 }
