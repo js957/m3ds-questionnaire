@@ -1,6 +1,7 @@
 package com.m3ds.que.api.web.controller;
 
 
+import com.m3ds.que.common.core.vo.Result;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,7 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2023-02-26
  */
 @RestController
-@RequestMapping("/psyquestioner/que-sequence")
+@RequestMapping("/seq")
 public class QueSequenceController {
+
 
 }
