@@ -2,3 +2,6 @@
 /logs/
 /que-center/target/
 /que-common/target/
+/que-api/target/
+/que-account/target/
+/que-oss/target/
