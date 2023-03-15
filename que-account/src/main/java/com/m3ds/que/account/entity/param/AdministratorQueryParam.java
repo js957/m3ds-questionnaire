@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.m3ds.que.account.entity.po.Administrator;
 import com.m3ds.que.common.web.entity.param.BaseParam;
 import lombok.Data;
+import org.springframework.util.StringUtils;
 
 /**
  * tangzheng
@@ -40,10 +41,10 @@ public class AdministratorQueryParam extends BaseParam<Administrator> {
     @Override
     public QueryWrapper<Administrator> build() {
         QueryWrapper<Administrator> queryWrapper = super.build();
-        queryWrapper.like(this.userName != null, "user_name", this.userName);
-        queryWrapper.like(this.name != null, "name", this.name);
-        queryWrapper.eq(this.phone != null, "phone", this.phone);
-        queryWrapper.eq(this.email != null, "email", this.email);
+        queryWrapper.like(!StringUtils.isEmpty(this.userName), "user_name", this.userName);
+        queryWrapper.like(!StringUtils.isEmpty(this.name), "name", this.name);
+        queryWrapper.eq(!StringUtils.isEmpty(this.phone), "phone", this.phone);
+        queryWrapper.eq(!StringUtils.isEmpty(this.email), "email", this.email);
         queryWrapper.eq(this.gender != null, "gender", this.gender);
         return queryWrapper;
     }

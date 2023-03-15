@@ -7,6 +7,7 @@ import com.m3ds.que.common.web.entity.param.BaseParam;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotBlank;
 
@@ -28,7 +29,7 @@ public class TemplateQueryParam extends BaseParam<Template> {
     @Override
     public QueryWrapper<Template> build() {
         QueryWrapper<Template> queryWrapper = super.build();
-        queryWrapper.like(this.templateName != null, "template_name", this.templateName);
+        queryWrapper.like(!StringUtils.isEmpty(this.templateName), "template_name", this.templateName);
         return queryWrapper;
     }
 

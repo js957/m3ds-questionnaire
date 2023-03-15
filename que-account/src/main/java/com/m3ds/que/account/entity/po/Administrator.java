@@ -5,16 +5,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * <p>
- * 
- * </p>
- *
- * @author wjs
- * @since 2023-02-26
+ * tangzheng
+ * 管理员实体类
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Administrator extends BasePo {
+public class Administrator extends BasePo<Administrator> {
 
     private static final long serialVersionUID = 1L;
 

@@ -43,7 +43,11 @@ public class AdministratorController {
     @ApiImplicitParam(paramType = "path", name = "id", value = "管理员id", required = true, dataType = "string")
     @GetMapping("/{id}")
     public Result get(@PathVariable String id) {
-        return Result.success(new AdministratorVo(administratorServiceImpl.getById(id)));
+        Administrator administrator = administratorServiceImpl.getById(id);
+        if (administrator == null) {
+            return Result.fail("没有找到对应数据！");
+        }
+        return Result.success(new AdministratorVo(administrator));
     }
 
     /**
@@ -56,7 +60,7 @@ public class AdministratorController {
     @ApiOperation(value = "分页查询管理员", notes = "带参数分页查询管理员")
     @ApiImplicitParam(paramType = "body", name = "administratorQueryForm", value = "管理员的实体", required = true, dataType = "AdministratorQueryForm")
     @PostMapping("/conditions")
-    public Result search(@Valid @RequestBody AdministratorQueryForm administratorQueryForm) {
+    public Result conditions(@RequestBody @Valid AdministratorQueryForm administratorQueryForm) {
         QueryWrapper<Administrator> queryWrapper = administratorQueryForm.toParam(AdministratorQueryParam.class).build();
         Page page = administratorServiceImpl.page(administratorQueryForm.getPage(), queryWrapper);
         return Result.success(page.setRecords((List) page.getRecords().stream().map(t -> new AdministratorVo((Administrator) t)).collect(Collectors.toList())));
@@ -72,7 +76,7 @@ public class AdministratorController {
     @ApiOperation(value = "带查询条件查询管理员", notes = "带查询条件查询管理员")
     @ApiImplicitParam(paramType = "query", name = "administratorQueryParam", value = "管理员的实体", required = true, dataType = "AdministratorQueryParam")
     @GetMapping
-    public Result query(@RequestParam AdministratorQueryParam administratorQueryParam) {
+    public Result query(AdministratorQueryParam administratorQueryParam) {
         QueryWrapper<Administrator> queryWrapper = administratorQueryParam.build();
         return Result.success((administratorServiceImpl.list(queryWrapper).stream().map(AdministratorVo::new)).collect(Collectors.toList()));
     }
@@ -87,7 +91,7 @@ public class AdministratorController {
     @ApiOperation(value = "保存管理员", notes = "保存管理员")
     @ApiImplicitParam(paramType = "body", name = "administratorForm", value = "管理员的实体", required = true, dataType = "AdministratorForm")
     @PostMapping
-    public Result save(@RequestBody AdministratorForm administratorForm) {
+    public Result save(@RequestBody @Valid AdministratorForm administratorForm) {
         Administrator administrator = administratorForm.toPo(Administrator.class);
         administratorServiceImpl.save(administrator);
         return Result.success();
@@ -106,7 +110,7 @@ public class AdministratorController {
             @ApiImplicitParam(paramType = "body", name = "administratorForm", value = "管理员实体", required = true, dataType = "AdministratorForm")
     })
     @PutMapping(value = "/{id}")
-    public Result update(@PathVariable String id, @Valid @RequestBody AdministratorForm administratorForm) {
+    public Result update(@PathVariable String id, @RequestBody @Valid AdministratorForm administratorForm) {
         Administrator administrator = administratorForm.toPo(Administrator.class);
         administrator.setId(id);
         administratorServiceImpl.updateById(administrator);
@@ -137,8 +141,8 @@ public class AdministratorController {
      */
     @ApiOperation(value = "批量删除管理员", notes = "根据多个id批量删除管理员")
     @ApiImplicitParam(paramType = "body", name = "ids", value = "要删除的管理员id们", required = true, dataType = "string")
-    @PostMapping("/del/batch")
-    public Result deleteBatch(@RequestBody List<Integer> ids) {
+    @DeleteMapping("/del/batch")
+    public Result deleteBatch(@RequestBody List<String> ids) {
         administratorServiceImpl.removeByIds(ids);
         return Result.success();
     }

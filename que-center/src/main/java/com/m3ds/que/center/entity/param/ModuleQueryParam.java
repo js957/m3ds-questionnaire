@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.m3ds.que.center.entity.po.Module;
 import com.m3ds.que.common.web.entity.param.BaseParam;
 import lombok.Data;
+import org.springframework.util.StringUtils;
 
 /**
  * tangzheng
@@ -35,9 +36,9 @@ public class ModuleQueryParam extends BaseParam<Module> {
     @Override
     public QueryWrapper<Module> build() {
         QueryWrapper<Module> queryWrapper = super.build();
-        queryWrapper.eq(this.templateId != null, "template_id", this.templateId);
-        queryWrapper.like(this.moduleName != null, "module_name", this.moduleName);
-        queryWrapper.eq(this.moduleNo != null, "module_no", this.moduleNo);
+        queryWrapper.eq(!StringUtils.isEmpty(this.templateId), "template_id", this.templateId);
+        queryWrapper.like(!StringUtils.isEmpty(this.moduleName), "module_name", this.moduleName);
+        queryWrapper.eq(!StringUtils.isEmpty(this.moduleNo), "module_no", this.moduleNo);
         queryWrapper.eq(this.sorted != null, "sorted", this.sorted);
         queryWrapper.orderBy(true, false, "sorted").orderBy(true, true, "serial_num");
         return queryWrapper;

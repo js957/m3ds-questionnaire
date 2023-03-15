@@ -78,7 +78,7 @@ public class ModuleController {
     @ApiOperation(value = "分页查询问卷模块", notes = "带参数分页查询问卷模块")
     @ApiImplicitParam(paramType = "body", name = "moduleQueryForm", value = "问卷模块的实体", required = true, dataType = "ModuleQueryForm")
     @PostMapping("/conditions")
-    public Result search(@RequestBody @Valid ModuleQueryForm moduleQueryForm) {
+    public Result conditions(@RequestBody @Valid ModuleQueryForm moduleQueryForm) {
         QueryWrapper<Module> queryWrapper = moduleQueryForm.toParam(ModuleQueryParam.class).build();
         Page page = moduleServiceImpl.page(moduleQueryForm.getPage(), queryWrapper);
         return Result.success(page.setRecords((List) page.getRecords().stream().map(t -> new ModuleVo((Module) t)).collect(Collectors.toList())));

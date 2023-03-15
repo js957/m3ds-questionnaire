@@ -8,16 +8,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * <p>
- * 
- * </p>
- *
- * @author wjs
- * @since 2023-02-26
+ * tangzheng
+ * 受试者实体类
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Subject extends BasePo {
+public class Subject extends BasePo<Subject> {
 
     private static final long serialVersionUID = 1L;
 

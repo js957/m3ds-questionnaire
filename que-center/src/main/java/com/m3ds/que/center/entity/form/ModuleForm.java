@@ -56,6 +56,10 @@ public class ModuleForm extends BaseForm<Module> {
     @ApiModelProperty(value = "模块排序的序号")
     private Integer serialNum;
 
+    /**
+     * 若有排序，则排序序号不能为空
+     * @return
+     */
     @AssertTrue
     private boolean isValid() {
         return !(sorted && serialNum == null);

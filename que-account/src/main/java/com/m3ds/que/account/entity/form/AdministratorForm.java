@@ -33,42 +33,36 @@ public class AdministratorForm extends BaseForm<Administrator> {
     /**
      * 真实姓名
      */
-    @NotBlank(message = "真实姓名为空")
     @ApiModelProperty(value = "真实姓名")
     private String name;
 
     /**
      * 头像地址
      */
-    @NotBlank(message = "头像为空")
     @ApiModelProperty(value = "头像地址")
     private String profile;
 
     /**
      * 电话号码
      */
-    @NotBlank(message = "电话号码为空")
     @ApiModelProperty(value = "电话号码")
     private String phone;
 
     /**
      * 邮箱地址
      */
-    @NotBlank(message = "邮箱地址为空")
     @ApiModelProperty(value = "邮箱地址")
     private String email;
 
     /**
      * 性别
      */
-    @NotBlank(message = "性别为空")
     @ApiModelProperty(value = "性别")
     private Integer gender;
 
     /**
      * 年龄
      */
-    @NotBlank(message = "年龄为空")
     @ApiModelProperty(value = "年龄")
     private Integer age;
 

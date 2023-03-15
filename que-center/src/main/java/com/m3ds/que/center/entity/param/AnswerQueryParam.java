@@ -6,6 +6,7 @@ import com.m3ds.que.common.web.entity.param.BaseParam;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.AssertTrue;
 
@@ -37,8 +38,8 @@ public class AnswerQueryParam extends BaseParam<Answer> {
     @Override
     public QueryWrapper<Answer> build() {
         QueryWrapper<Answer> queryWrapper = super.build();
-        queryWrapper.eq(this.subId != null, "sub_id", this.subId);
-        queryWrapper.eq(this.moduleId != null, "module_id", this.moduleId);
+        queryWrapper.eq(!StringUtils.isEmpty(this.subId), "sub_id", this.subId);
+        queryWrapper.eq(!StringUtils.isEmpty(this.moduleId), "module_id", this.moduleId);
         return queryWrapper;
     }
 

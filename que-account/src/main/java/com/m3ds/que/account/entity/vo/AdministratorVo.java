@@ -23,6 +23,11 @@ public class AdministratorVo {
     private String userName;
 
     /**
+     * 真实姓名
+     */
+    private String name;
+
+    /**
      * 头像地址
      */
     private String profile;
