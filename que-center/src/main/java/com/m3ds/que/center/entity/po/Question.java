@@ -1,8 +1,13 @@
 package com.m3ds.que.center.entity.po;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.m3ds.que.common.web.entity.po.BasePo;
+import com.m3ds.que.common.web.handler.JacksonTypeHandler;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -34,9 +39,16 @@ public class Question extends BasePo<Question> {
     private String questionNo;
 
     /**
-     * 是否有子问题
+     * 问题类型(0问题，1诊断框问题，2诊断框子问题)
      */
-    private Boolean subQuestioned;
+    private Integer queType;
+
+
+    /**
+     * 选项类型(TEXT,INPUT,RADIO,CHECKBOX)
+     */
+    private String optType;
+
 
     /**
      * 问题
@@ -56,7 +68,8 @@ public class Question extends BasePo<Question> {
     /**
      * 选项
      */
-    private String option;
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private Map<String, Object> option;
 
     /**
      * 跳转规则
@@ -66,7 +79,12 @@ public class Question extends BasePo<Question> {
     /**
      * 选择规则
      */
-    private String optRuleId;
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private List<String> optRuleId;
 
+    /**
+     * 序号
+     */
+    private long serialNum;
 
 }

@@ -13,7 +13,53 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2023-02-26
  */
 @RestController
-@RequestMapping("/psyquestioner/question")
+@RequestMapping("/question")
 public class QuestionController {
+
+    /**
+    *@Param:
+    *@Author: wjs
+    *@date: 17:47
+     * 创建问题
+    */
+
+    /**
+    *@Param:
+    *@Author: wjs
+    *@date: 17:47
+     * 删除问题
+    */
+
+    /**
+    *@Param:
+    *@Author: wjs
+    *@date: 17:47
+     * 修改问题
+    */
+
+    /**
+    *@Param:
+    *@Author: wjs
+    *@date: 17:47
+     * 获取问题
+    */
+
+    /**
+    *@Param:
+    *@Author: wjs
+    *@date: 21:47
+     * 修改顺序
+    */
+
+    /**
+    *@Param:
+    *@Author: wjs
+    *@date: 21:47
+     * 获取一个模块的所有问题
+    */
+
+
+
+
 
 }
