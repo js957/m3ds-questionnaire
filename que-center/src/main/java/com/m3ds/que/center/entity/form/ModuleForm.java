@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotBlank;
 
 /**
@@ -49,5 +50,14 @@ public class ModuleForm extends BaseForm<Module> {
     @ApiModelProperty(value = "判断模块中的题目是否加入顺序队列")
     private Boolean sorted;
 
+    /**
+     * 排序序号
+     */
+    @ApiModelProperty(value = "模块排序的序号")
+    private Integer serialNum;
 
+    @AssertTrue
+    private boolean isValid() {
+        return sorted && serialNum != null;
+    }
 }

@@ -1,21 +1,26 @@
 package com.m3ds.que.center.entity.vo;
 
-import com.m3ds.que.center.entity.po.Module;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.m3ds.que.common.web.handler.JacksonTypeHandler;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.BeanUtils;
+
+import java.util.List;
 
 /**
  * tangzheng
- * 问卷模快Vo类
+ * 问卷模快在App上的Vo类
  */
 @Data
 @NoArgsConstructor
-public class ModuleVo {
+@TableName(value = "module", autoResultMap = true)
+public class ModuleAppVo {
 
-    public ModuleVo(Module module) {
-        BeanUtils.copyProperties(module, this);
-    }
+    /**
+     * 模板id
+     */
+    private String id;
 
     /**
      * 所属问卷模板
@@ -38,13 +43,7 @@ public class ModuleVo {
     private String description;
 
     /**
-     * 判断模块是否加入顺序队列
+     * 模块下的问题列表
      */
-    private Boolean sorted;
-
-    /**
-     * 排序序号
-     */
-    private Integer serialNum;
-
+    private List<QuestionAppVo> questions;
 }

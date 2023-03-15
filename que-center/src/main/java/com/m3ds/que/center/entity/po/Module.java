@@ -5,12 +5,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * <p>
- * 
- * </p>
- *
- * @author wjs
- * @since 2023-02-26
+ * tangzheng
+ * 问款模块实体类
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -39,9 +35,13 @@ public class Module extends BasePo<Module> {
     private String description;
 
     /**
-     * 判断模块中的题目是否加入顺序队列
+     * 判断模块是否加入顺序队列
      */
     private Boolean sorted;
 
 
+    /**
+     * 排序序号
+     */
+    private Integer serialNum;
 }
