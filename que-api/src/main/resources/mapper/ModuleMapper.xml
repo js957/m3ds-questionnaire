@@ -1,5 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ynufrd.psyquestioner.mapper.ModuleMapper">
-
+<mapper namespace="com.m3ds.que.center.mapper.ModuleMapper">
+    <resultMap id="appResultMap" type="com.m3ds.que.center.entity.vo.ModuleAppVo">
+        <id property="id" column="id"/>
+        <result property="templateId" column="template_id"/>
+        <result property="moduleName" column="module_name"/>
+        <result property="moduleNo" column="module_no"/>
+        <result property="description" column="description"/>
+        <collection property="questions" ofType="com.m3ds.que.center.entity.vo.QuestionAppVo">
+            <id property="id" column="q_id"/>
+            <result property="questionNo" column="q_question_no"/>
+            <result property="queType" column="q_que_type"/>
+            <result property="optType" column="q_opt_type"/>
+            <result property="issue" column="q_issue"/>
+            <result property="note" column="q_note"/>
+            <result property="answers" column="q_answers"/>
+            <result property="option" column="q_option" typeHandler="com.m3ds.que.common.web.handler.JacksonTypeHandler"/>
+            <result property="refIds" column="q_ref_ids" typeHandler="com.m3ds.que.common.web.handler.JacksonTypeHandler"/>
+            <association property="skipRule" javaType="com.m3ds.que.center.entity.vo.SkipAppVo">
+                <id property="id" column="s_id"/>
+                <result property="description" column="s_description"/>
+                <result property="type" column="s_type"/>
+                <result property="target" column="s_target"/>
+                <result property="condition" column="s_condition" typeHandler="com.m3ds.que.common.web.handler.JacksonTypeHandler"/>
+            </association>
+        </collection>
+    </resultMap>
+    <select id="queryAllByTemplate" resultMap="appResultMap">
+        select m.id,
+               m.template_id,
+               m.module_name,
+               m.module_no,
+               m.`description`,
+               q.id            q_id,
+               q.question_no   q_question_no,
+               q.que_type      q_que_type,
+               q.opt_type      q_opt_type,
+               q.issue         q_issue,
+               q.note          q_note,
+               q.answers       q_answers,
+               q.`option`      q_option,
+               q.ref_ids       q_ref_ids,
+               s.id            s_id,
+               s.`description` s_description,
+               s.`type`        s_type,
+               s.target        s_target,
+               s.`condition`   s_condition
+        from module m
+                 left join question q on m.id = q.module_id and q.deleted = 0
+                 left join `skip` s on q.id = s.que_id and s.deleted = 0
+        where m.template_id = #{id}
+          and m.deleted = 0
+        order by m.sorted desc, m.serial_num, q.serial_num
+    </select>
 </mapper>

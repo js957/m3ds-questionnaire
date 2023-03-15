@@ -58,6 +58,6 @@ public class ModuleForm extends BaseForm<Module> {
 
     @AssertTrue
     private boolean isValid() {
-        return sorted && serialNum != null;
+        return !(sorted && serialNum == null);
     }
 }

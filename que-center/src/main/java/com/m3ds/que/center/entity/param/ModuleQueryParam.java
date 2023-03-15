@@ -37,8 +37,9 @@ public class ModuleQueryParam extends BaseParam<Module> {
         QueryWrapper<Module> queryWrapper = super.build();
         queryWrapper.eq(this.templateId != null, "template_id", this.templateId);
         queryWrapper.like(this.moduleName != null, "module_name", this.moduleName);
-        queryWrapper.eq(this.moduleNo != null,"module_no", this.moduleNo);
-        queryWrapper.eq(this.sorted != null,"sorted", this.sorted);
+        queryWrapper.eq(this.moduleNo != null, "module_no", this.moduleNo);
+        queryWrapper.eq(this.sorted != null, "sorted", this.sorted);
+        queryWrapper.orderBy(true, false, "sorted").orderBy(true, true, "serial_num");
         return queryWrapper;
     }
 }
