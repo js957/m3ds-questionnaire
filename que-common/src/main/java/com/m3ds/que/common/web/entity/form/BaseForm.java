@@ -15,7 +15,7 @@ public class BaseForm<T extends BasePo> {
     /**
      * 用户名
      */
-    private String username;
+    // private String username;
 
     /**
      * From转化为Po，进行后续业务处理
