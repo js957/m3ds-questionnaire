@@ -34,7 +34,7 @@ public class QuestionController {
     *@Param:
     *@Author: wjs
     *@date: 17:47
-     * 修改问用
+     * 修改问题
     */
 
     /**
@@ -43,6 +43,22 @@ public class QuestionController {
     *@date: 17:47
      * 获取问题
     */
+
+    /**
+    *@Param:
+    *@Author: wjs
+    *@date: 21:47
+     * 修改顺序
+    */
+
+    /**
+    *@Param:
+    *@Author: wjs
+    *@date: 21:47
+     * 获取一个模块的所有问题
+    */
+
+
 
 
 
