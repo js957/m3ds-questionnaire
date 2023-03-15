@@ -19,6 +19,11 @@ public class TemplateVo {
     }
 
     /**
+     * 模板id
+     */
+    private String id;
+
+    /**
      * 模板名
      */
     private String templateName;

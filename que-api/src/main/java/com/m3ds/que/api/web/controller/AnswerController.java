@@ -55,7 +55,7 @@ public class AnswerController {
     @ApiOperation(value = "保存回答结果", notes = "保存回答结果")
     @ApiImplicitParam(paramType = "body", name = "answerForm", value = "回答结果的实体", required = true, dataType = "AnswerForm")
     @PostMapping
-    public Result save(@Valid @RequestBody AnswerForm answerForm) {
+    public Result save(@RequestBody @Valid AnswerForm answerForm) {
         Answer answer = answerForm.toPo(Answer.class);
         answerServiceImpl.save(answer);
         return Result.success();
