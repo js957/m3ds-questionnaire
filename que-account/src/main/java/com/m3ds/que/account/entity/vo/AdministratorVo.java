@@ -1,6 +1,7 @@
 package com.m3ds.que.account.entity.vo;
 
 import com.m3ds.que.account.entity.po.Administrator;
+import com.m3ds.que.common.web.entity.vo.BaseVo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -11,7 +12,7 @@ import org.springframework.beans.BeanUtils;
  */
 @Data
 @NoArgsConstructor
-public class AdministratorVo {
+public class AdministratorVo extends BaseVo<Administrator> {
 
     public AdministratorVo(Administrator administrator) {
         BeanUtils.copyProperties(administrator, this);

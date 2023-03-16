@@ -2,6 +2,7 @@ package com.m3ds.que.center.entity.vo;
 
 
 import com.m3ds.que.center.entity.po.Template;
+import com.m3ds.que.common.web.entity.vo.BaseVo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -12,16 +13,11 @@ import org.springframework.beans.BeanUtils;
  */
 @Data
 @NoArgsConstructor
-public class TemplateVo {
+public class TemplateVo extends BaseVo<Template> {
 
     public TemplateVo(Template template){
         BeanUtils.copyProperties(template, this);
     }
-
-    /**
-     * 模板id
-     */
-    private String id;
 
     /**
      * 模板名

@@ -1,6 +1,7 @@
 package com.m3ds.que.center.entity.vo;
 
 import com.m3ds.que.center.entity.po.Answer;
+import com.m3ds.que.common.web.entity.vo.BaseVo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -13,7 +14,7 @@ import java.util.Map;
  */
 @Data
 @NoArgsConstructor
-public class AnswerVo {
+public class AnswerVo extends BaseVo<Answer> {
 
     public AnswerVo(Answer answer) {
         BeanUtils.copyProperties(answer, this);

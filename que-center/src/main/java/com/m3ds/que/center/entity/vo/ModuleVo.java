@@ -1,6 +1,7 @@
 package com.m3ds.que.center.entity.vo;
 
 import com.m3ds.que.center.entity.po.Module;
+import com.m3ds.que.common.web.entity.vo.BaseVo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -11,7 +12,7 @@ import org.springframework.beans.BeanUtils;
  */
 @Data
 @NoArgsConstructor
-public class ModuleVo {
+public class ModuleVo extends BaseVo<Module> {
 
     public ModuleVo(Module module) {
         BeanUtils.copyProperties(module, this);

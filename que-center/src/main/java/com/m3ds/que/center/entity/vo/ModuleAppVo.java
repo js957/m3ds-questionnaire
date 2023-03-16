@@ -2,6 +2,8 @@ package com.m3ds.que.center.entity.vo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.m3ds.que.center.entity.po.Module;
+import com.m3ds.que.common.web.entity.vo.BaseVo;
 import com.m3ds.que.common.web.handler.JacksonTypeHandler;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,12 +17,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @TableName(value = "module", autoResultMap = true)
-public class ModuleAppVo {
-
-    /**
-     * 模板id
-     */
-    private String id;
+public class ModuleAppVo extends BaseVo<Module> {
 
     /**
      * 所属问卷模板
