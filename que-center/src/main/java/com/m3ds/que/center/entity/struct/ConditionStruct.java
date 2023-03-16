@@ -2,6 +2,7 @@ package com.m3ds.que.center.entity.struct;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -25,7 +26,7 @@ import java.util.List;
  * }
  */
 @Data
-public class ConditionStruct {
+public class ConditionStruct implements Serializable {
     /**
     * 问题id集合
     */

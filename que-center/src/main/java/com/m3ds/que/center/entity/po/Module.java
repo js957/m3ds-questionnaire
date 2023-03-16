@@ -3,6 +3,7 @@ package com.m3ds.que.center.entity.po;
 import com.m3ds.que.common.web.entity.po.BasePo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.FieldNameConstants;
 
 /**
  * tangzheng
@@ -10,6 +11,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@FieldNameConstants
 public class Module extends BasePo<Module> {
 
     private static final long serialVersionUID = 1L;

@@ -6,6 +6,7 @@ import com.m3ds.que.common.web.entity.po.BasePo;
 import com.m3ds.que.common.web.handler.JacksonTypeHandler;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.FieldNameConstants;
 
 /**
  * <p>
@@ -17,6 +18,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@FieldNameConstants
 public class Skip extends BasePo<Skip> {
 
     private static final long serialVersionUID = 1L;

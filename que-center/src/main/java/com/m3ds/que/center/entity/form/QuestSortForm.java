@@ -11,13 +11,10 @@ import javax.validation.constraints.NotNull;
 @Data
 public class QuestSortForm {
 
-    @NotNull(message = "key请求异常")
-    private String templateId;
-
-    @NotNull(message = "key请求异常")
+    @NotNull(message = "请求异常，获取不到模块。")
     private String moduleId;
 
-    @NotNull(message = "key请求异常")
+    @NotNull(message = "请求异常，获取不到问题。")
     private String queId;
 
     private Long beforePosition;

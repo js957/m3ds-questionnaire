@@ -2,9 +2,12 @@ package com.m3ds.que.center.entity.vo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.m3ds.que.center.entity.po.Skip;
+import com.m3ds.que.common.web.entity.vo.BaseVo;
 import com.m3ds.que.common.web.handler.JacksonTypeHandler;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 import java.util.Map;
 
@@ -15,12 +18,11 @@ import java.util.Map;
 @Data
 @NoArgsConstructor
 @TableName(value = "skip", autoResultMap = true)
-public class SkipAppVo {
+public class SkipAppVo extends BaseVo<Skip> {
 
-    /**
-     * 跳转规则id
-     */
-    private String id;
+    public SkipAppVo(Skip skip){
+        BeanUtils.copyProperties(skip, this);
+    }
 
     /**
      * 诊断程序描述
