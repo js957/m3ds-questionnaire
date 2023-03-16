@@ -6,6 +6,7 @@ import com.m3ds.que.common.web.entity.po.BasePo;
 import com.m3ds.que.common.web.handler.JacksonTypeHandler;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.FieldNameConstants;
 
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import java.util.Map;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName(value = "answer", autoResultMap = true)
+@FieldNameConstants
 public class Answer extends BasePo<Answer> {
 
     private static final long serialVersionUID = 1L;

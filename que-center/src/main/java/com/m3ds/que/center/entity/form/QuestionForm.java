@@ -22,13 +22,13 @@ public class QuestionForm extends BaseForm<Question> {
     /**
      * 问题属于哪个模块
      */
-    @NotNull(message = "key请求异常", groups = {AddGroup.class})
+    @NotNull(message = "key请求异常",groups = {AddGroup.class})
     private String moduleId;
 
     /**
      * 模块编号用于显示
      */
-    @NotNull(message = "请求异常", groups = {AddGroup.class})
+    @NotNull(message = "请求异常",groups = {AddGroup.class})
     private String moduleNo;
 
     /**
@@ -39,21 +39,21 @@ public class QuestionForm extends BaseForm<Question> {
     /**
      * 问题类型(0问题，1诊断框问题，2诊断框子问题)
      */
-    @NotNull(message = "问题类型必选", groups = {AddGroup.class})
+    @NotNull(message = "问题类型必选",groups = {AddGroup.class})
     private Integer queType;
 
 
     /**
      * 选项类型(TEXT,INPUT,RADIO,CHECKBOX)
      */
-    @NotNull(message = "选项类型必填", groups = {AddGroup.class})
+    @NotNull(message = "选项类型必填",groups = {AddGroup.class})
     private String optType;
 
 
     /**
      * 问题
      */
-    @NotNull(message = "问题内容不为空", groups = {AddGroup.class})
+    @NotNull(message = "问题内容不为空",groups = {AddGroup.class})
     private String issue;
 
     /**
@@ -64,12 +64,17 @@ public class QuestionForm extends BaseForm<Question> {
     /**
      * 提醒改题目由谁作答
      */
-    @NotNull(message = "指定回答人", groups = {AddGroup.class})
+    @NotNull(message = "指定回答人",groups = {AddGroup.class})
     private Integer answers;
 
     /**
      * 选项
      */
-    private Map<String, Object> option;
+    private Map<String, Object> optData;
+
+    /**
+     * 参考规则
+     */
+    private List<String> refIds;
 
 }

@@ -1,33 +1,25 @@
-package com.m3ds.que.center.entity.po;
+package com.m3ds.que.center.entity.vo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.m3ds.que.common.web.entity.po.BasePo;
+import com.m3ds.que.center.entity.po.Question;
+import com.m3ds.que.center.entity.po.Skip;
+import com.m3ds.que.common.web.entity.vo.BaseVo;
 import com.m3ds.que.common.web.handler.JacksonTypeHandler;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
-import lombok.experimental.FieldNameConstants;
+import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * <p>
- * 
- * </p>
- *
- * @author wjs
- * @since 2023-02-26
+ * Created by wjs on 2023/03/16
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
-@TableName(autoResultMap = true)
-@FieldNameConstants
-public class Question extends BasePo<Question> {
+public class QuestionVo extends BaseVo<Question> {
 
-    private static final long serialVersionUID = 1L;
+    public QuestionVo(Question question){
+        BeanUtils.copyProperties(question, this);
+    }
 
     /**
      * 问题属于哪个模块
@@ -74,23 +66,20 @@ public class Question extends BasePo<Question> {
     /**
      * 选项
      */
-    @TableField(typeHandler = JacksonTypeHandler.class)
     private Map<String, Object> optData;
 
     /**
      * 跳转规则
      */
-    private String skipRuleId;
+    private Skip skip;
 
     /**
      * 选择规则
      */
-    @TableField(typeHandler = JacksonTypeHandler.class)
-    private List<String> refIds;
+    private List<String> optRuleId;
 
     /**
      * 序号
      */
     private long serialNum;
-
 }

@@ -2,9 +2,12 @@ package com.m3ds.que.center.entity.vo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.m3ds.que.center.entity.po.Question;
+import com.m3ds.que.common.web.entity.vo.BaseVo;
 import com.m3ds.que.common.web.handler.JacksonTypeHandler;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -16,12 +19,11 @@ import java.util.Map;
 @Data
 @NoArgsConstructor
 @TableName(value = "question", autoResultMap = true)
-public class QuestionAppVo {
+public class QuestionAppVo extends BaseVo<Question> {
 
-    /**
-     * 问题id
-     */
-    private String id;
+    public QuestionAppVo(Question question){
+        BeanUtils.copyProperties(question, this);
+    }
 
     /**
      * 问题的编号用于线索
@@ -57,7 +59,7 @@ public class QuestionAppVo {
      * 选项
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
-    private Map<String,Object> option;
+    private Map<String,Object> optData;
 
     /**
      * 跳转规则
