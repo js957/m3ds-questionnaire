@@ -1,12 +1,15 @@
 package com.m3ds.que.account.entity.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.m3ds.que.account.entity.po.Subject;
+import com.m3ds.que.common.web.entity.vo.BaseVo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * tangzheng
@@ -14,7 +17,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @NoArgsConstructor
-public class SubjectVo {
+public class SubjectVo extends BaseVo<Subject> {
 
     public SubjectVo(Subject subject) {
         BeanUtils.copyProperties(subject, this);
@@ -33,6 +36,7 @@ public class SubjectVo {
     /**
      * 出生日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private LocalDate birthday;
 
     /**
@@ -43,16 +47,19 @@ public class SubjectVo {
     /**
      * 检查日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private LocalDate begindate;
 
     /**
      * 开始时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime startTime;
 
     /**
      * 结束时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime endTime;
 
     /**
@@ -63,7 +70,7 @@ public class SubjectVo {
     /**
      * 诊断的疾病集合
      */
-    private String result;
+    private List<String> result;
 
 
 }

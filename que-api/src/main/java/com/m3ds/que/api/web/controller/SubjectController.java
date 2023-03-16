@@ -13,6 +13,7 @@ import com.m3ds.que.common.core.vo.Result;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -27,6 +28,7 @@ import java.util.stream.Collectors;
  * @since 2023-03-10
  */
 @RestController
+@Validated
 @RequestMapping("/psyquestioner/subject")
 public class SubjectController {
     @Resource
@@ -43,6 +45,10 @@ public class SubjectController {
     @ApiImplicitParam(paramType = "path", name = "id", value = "受试者id", required = true, dataType = "string")
     @GetMapping("/{id}")
     public Result get(@PathVariable String id) {
+        Subject subject = subjectServiceImpl.getById(id);
+        if (subject == null) {
+            return Result.fail("没有找到该受试者！");
+        }
         return Result.success(new SubjectVo(subjectServiceImpl.getById(id)));
     }
 
@@ -56,7 +62,7 @@ public class SubjectController {
     @ApiOperation(value = "分页查询受试者", notes = "带参数分页查询受试者")
     @ApiImplicitParam(paramType = "body", name = "subjectQueryForm", value = "受试者的实体", required = true, dataType = "SubjectQueryForm")
     @PostMapping("/conditions")
-    public Result search(@Valid @RequestBody SubjectQueryForm subjectQueryForm) {
+    public Result conditions(@RequestBody @Valid SubjectQueryForm subjectQueryForm) {
         QueryWrapper<Subject> queryWrapper = subjectQueryForm.toParam(SubjectQueryParam.class).build();
         Page page = subjectServiceImpl.page(subjectQueryForm.getPage(), queryWrapper);
         return Result.success(page.setRecords((List) page.getRecords().stream().map(t -> new SubjectVo((Subject) t)).collect(Collectors.toList())));
@@ -72,7 +78,7 @@ public class SubjectController {
     @ApiOperation(value = "带查询条件查询受试者", notes = "带查询条件查询受试者")
     @ApiImplicitParam(paramType = "query", name = "subjectQueryParam", value = "受试者的实体", required = true, dataType = "SubjectQueryParam")
     @GetMapping
-    public Result query(@RequestParam SubjectQueryParam subjectQueryParam) {
+    public Result query(SubjectQueryParam subjectQueryParam) {
         QueryWrapper<Subject> queryWrapper = subjectQueryParam.build();
         return Result.success((subjectServiceImpl.list(queryWrapper).stream().map(SubjectVo::new)).collect(Collectors.toList()));
     }
@@ -87,9 +93,25 @@ public class SubjectController {
     @ApiOperation(value = "保存受试者", notes = "保存受试者")
     @ApiImplicitParam(paramType = "body", name = "subjectForm", value = "受试者的实体", required = true, dataType = "SubjectForm")
     @PostMapping
-    public Result save(@RequestBody SubjectForm subjectForm) {
+    public Result save(@RequestBody @Valid SubjectForm subjectForm) {
         Subject subject = subjectForm.toPo(Subject.class);
         subjectServiceImpl.save(subject);
+        return Result.success();
+    }
+
+    /**
+     * @param subjectForms 要保存的受试者对象们
+     * @return com.m3ds.que.common.core.vo.Result
+     * @author tangzheng
+     * @date 2023/3/10 14:55
+     * @description 批量保存受试者
+     */
+    @ApiOperation(value = "批量保存受试者", notes = "批量保存受试者")
+    @ApiImplicitParam(paramType = "body", name = "subjectForms", value = "受试者的实体", required = true, dataType = "List<SubjectForm>")
+    @PostMapping("/saveBatch")
+    public Result saveBatch(@RequestBody List<SubjectForm> subjectForms) {
+        List<Subject> subjects = subjectForms.stream().map(s -> s.toPo(Subject.class)).collect(Collectors.toList());
+        subjectServiceImpl.saveBatch(subjects);
         return Result.success();
     }
 
@@ -106,7 +128,7 @@ public class SubjectController {
             @ApiImplicitParam(paramType = "body", name = "subjectForm", value = "受试者实体", required = true, dataType = "SubjectForm")
     })
     @PutMapping(value = "/{id}")
-    public Result update(@PathVariable String id, @Valid @RequestBody SubjectForm subjectForm) {
+    public Result update(@PathVariable String id, @RequestBody @Valid SubjectForm subjectForm) {
         Subject subject = subjectForm.toPo(Subject.class);
         subject.setId(id);
         subjectServiceImpl.updateById(subject);
@@ -137,8 +159,8 @@ public class SubjectController {
      */
     @ApiOperation(value = "批量删除受试者", notes = "根据多个id批量删除受试者")
     @ApiImplicitParam(paramType = "body", name = "ids", value = "要删除的受试者id们", required = true, dataType = "string")
-    @PostMapping("/del/batch")
-    public Result deleteBatch(@RequestBody List<Integer> ids) {
+    @DeleteMapping("/del/batch")
+    public Result deleteBatch(@RequestBody List<String> ids) {
         subjectServiceImpl.removeByIds(ids);
         return Result.success();
     }

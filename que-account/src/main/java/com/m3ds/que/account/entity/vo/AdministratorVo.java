@@ -28,6 +28,16 @@ public class AdministratorVo {
     private String name;
 
     /**
+     * 电话号码
+     */
+    private String phone;
+
+    /**
+     * 邮箱地址
+     */
+    private String email;
+
+    /**
      * 头像地址
      */
     private String profile;

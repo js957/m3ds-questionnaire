@@ -6,6 +6,8 @@ import com.m3ds.que.common.web.entity.param.BaseParam;
 import lombok.Data;
 import org.springframework.util.StringUtils;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  * tangzheng
  * 问卷模块Param类
@@ -16,6 +18,7 @@ public class ModuleQueryParam extends BaseParam<Module> {
     /**
      * 所属问卷模板
      */
+    @NotBlank(message = "缺少模板信息")
     private String templateId;
 
     /**

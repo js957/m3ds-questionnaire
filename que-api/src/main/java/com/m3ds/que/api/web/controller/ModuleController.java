@@ -94,7 +94,7 @@ public class ModuleController {
     @ApiOperation(value = "带查询条件查询问卷模块", notes = "带查询条件查询问卷模块")
     @ApiImplicitParam(paramType = "query", name = "moduleQueryParam", value = "问卷模块的实体", required = true, dataType = "ModuleQueryParam")
     @GetMapping
-    public Result query(ModuleQueryParam moduleQueryParam) {
+    public Result query(@Valid ModuleQueryParam moduleQueryParam) {
         QueryWrapper<Module> queryWrapper = moduleQueryParam.build();
         return Result.success((moduleServiceImpl.list(queryWrapper).stream().map(ModuleVo::new)).collect(Collectors.toList()));
     }

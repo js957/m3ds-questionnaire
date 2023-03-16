@@ -1,13 +1,12 @@
 package com.m3ds.que.account.entity.param;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.m3ds.que.account.entity.po.Administrator;
 import com.m3ds.que.account.entity.po.Subject;
 import com.m3ds.que.common.web.entity.param.BaseParam;
 import lombok.Data;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * tangzheng
@@ -39,8 +38,8 @@ public class SubjectQueryParam extends BaseParam<Subject> {
     @Override
     public QueryWrapper<Subject> build() {
         QueryWrapper<Subject> queryWrapper = super.build();
-        queryWrapper.like(this.name != null, "name", this.name);
-        queryWrapper.eq(this.phone != null, "phone", this.phone);
+        queryWrapper.like(!StringUtils.isEmpty(this.name), "name", this.name);
+        queryWrapper.eq(!StringUtils.isEmpty(this.phone), "phone", this.phone);
         queryWrapper.eq(this.begindate != null, "begindate", this.begindate);
         queryWrapper.eq(this.state != null, "state", this.state);
         return queryWrapper;

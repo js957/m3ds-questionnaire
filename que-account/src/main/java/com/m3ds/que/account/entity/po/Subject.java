@@ -1,11 +1,15 @@
 package com.m3ds.que.account.entity.po;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.m3ds.que.common.web.entity.po.BasePo;
+import com.m3ds.que.common.web.handler.JacksonTypeHandler;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * tangzheng
@@ -13,6 +17,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@TableName(value = "subject", autoResultMap = true)
 public class Subject extends BasePo<Subject> {
 
     private static final long serialVersionUID = 1L;
@@ -60,7 +65,8 @@ public class Subject extends BasePo<Subject> {
     /**
      * 诊断的疾病集合
      */
-    private String result;
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private List<String> result;
 
 
 }
