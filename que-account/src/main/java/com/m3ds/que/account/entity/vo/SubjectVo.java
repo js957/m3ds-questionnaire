@@ -40,11 +40,6 @@ public class SubjectVo extends BaseVo<Subject> {
     private LocalDate birthday;
 
     /**
-     * 负责的管理员id
-     */
-    private String adminId;
-
-    /**
      * 检查日期
      */
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")

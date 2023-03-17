@@ -98,8 +98,9 @@ public class SubjectController {
     @ApiImplicitParam(paramType = "body", name = "subjectForm", value = "受试者的实体", required = true, dataType = "SubjectForm")
     @PostMapping
     @Login
-    public Result save(@RequestBody @Valid SubjectForm subjectForm) {
+    public Result save(@RequestBody @Valid SubjectForm subjectForm, @RequestAttribute String userId) {
         Subject subject = subjectForm.toPo(Subject.class);
+        subject.setAdminId(userId);
         subjectServiceImpl.save(subject);
         return Result.success();
     }
@@ -115,8 +116,9 @@ public class SubjectController {
     @ApiImplicitParam(paramType = "body", name = "subjectForms", value = "受试者的实体", required = true, dataType = "List<SubjectForm>")
     @PostMapping("/saveBatch")
     @Login
-    public Result saveBatch(@RequestBody List<SubjectForm> subjectForms) {
+    public Result saveBatch(@RequestBody List<SubjectForm> subjectForms, @RequestAttribute String userId) {
         List<Subject> subjects = subjectForms.stream().map(s -> s.toPo(Subject.class)).collect(Collectors.toList());
+        subjects.forEach(s -> s.setAdminId(userId));
         subjectServiceImpl.saveBatch(subjects);
         return Result.success();
     }
@@ -135,9 +137,10 @@ public class SubjectController {
     })
     @PutMapping(value = "/{id}")
     @Login
-    public Result update(@PathVariable String id, @RequestBody SubjectForm subjectForm) {
+    public Result update(@PathVariable String id, @RequestBody SubjectForm subjectForm, @RequestAttribute String userId) {
         Subject subject = subjectForm.toPo(Subject.class);
         subject.setId(id);
+        subject.setAdminId(userId);
         subjectServiceImpl.updateById(subject);
         return Result.success();
     }

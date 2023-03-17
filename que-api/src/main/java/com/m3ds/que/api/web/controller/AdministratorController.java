@@ -58,6 +58,23 @@ public class AdministratorController {
     }
 
     /**
+     * @param userId token解密后产生的userId
+     * @return com.m3ds.que.common.core.vo.Result
+     * @author tangzheng
+     * @date 2023/3/10 14:52
+     * @description 查询当前登陆的管理员
+     */
+    @Login
+    @GetMapping("/getSelf")
+    public Result getSelf(@RequestAttribute String userId) {
+        Administrator administrator = administratorServiceImpl.getById(userId);
+        if (administrator == null) {
+            return Result.fail("没有找到对应数据！");
+        }
+        return Result.success(new AdministratorVo(administrator));
+    }
+
+    /**
      * @param id 表主键
      * @return com.m3ds.que.common.core.vo.Result
      * @author tangzheng
@@ -120,8 +137,15 @@ public class AdministratorController {
     @ApiImplicitParam(paramType = "body", name = "administratorForm", value = "管理员的实体", required = true, dataType = "AdministratorForm")
     @PostMapping
     @Login
-    public Result save(@RequestBody @Valid AdministratorForm administratorForm) {
+    public Result save(@RequestBody @Valid AdministratorForm administratorForm, String userId) {
         Administrator administrator = administratorForm.toPo(Administrator.class);
+        QueryWrapper<Administrator> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_name",administrator.getUserName());
+        int count = administratorServiceImpl.count(queryWrapper);
+        //有相同username的话，就返回false
+        if (count < 1){
+            return Result.fail("用户名已被占用");
+        }
         //保存时应对密码加密
         administrator.setPassword(DigestUtil.md5Hex(administrator.getPassword()));
         administratorServiceImpl.save(administrator);
@@ -145,8 +169,9 @@ public class AdministratorController {
     public Result update(@PathVariable String id, @RequestBody AdministratorForm administratorForm) {
         Administrator administrator = administratorForm.toPo(Administrator.class);
         administrator.setId(id);
-        //保存时应对密码加密
-        administrator.setPassword(DigestUtil.md5Hex(administrator.getPassword()));
+        //不能更新用户名和密码,所以设为空
+        administrator.setUserName(null);
+        administrator.setPassword(null);
         administratorServiceImpl.updateById(administrator);
         return Result.success();
     }
