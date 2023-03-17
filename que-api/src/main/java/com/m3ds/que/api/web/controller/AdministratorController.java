@@ -1,14 +1,18 @@
 package com.m3ds.que.api.web.controller;
 
 
+import cn.hutool.crypto.digest.DigestUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.m3ds.que.account.entity.form.AdministratorForm;
+import com.m3ds.que.account.entity.form.AdministratorLoginForm;
 import com.m3ds.que.account.entity.form.AdministratorQueryForm;
 import com.m3ds.que.account.entity.param.AdministratorQueryParam;
 import com.m3ds.que.account.entity.po.Administrator;
 import com.m3ds.que.account.entity.vo.AdministratorVo;
 import com.m3ds.que.account.service.IAdministratorService;
+import com.m3ds.que.account.util.JwtUtils;
+import com.m3ds.que.api.annotation.Login;
 import com.m3ds.que.common.core.vo.Result;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -31,6 +35,27 @@ import java.util.stream.Collectors;
 public class AdministratorController {
     @Resource
     private IAdministratorService administratorServiceImpl;
+    @Resource
+    private JwtUtils jwtUtils;
+
+    /**
+     * @param loginForm 管理员登录的账号和密码
+     * @return com.m3ds.que.common.core.vo.Result 包含token
+     * @author tangzheng
+     * @date 2023/3/10 14:52
+     * @description 登录
+     */
+    @PostMapping("/login")
+    public Result login(@RequestBody @Valid AdministratorLoginForm loginForm) {
+        QueryWrapper<Administrator> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_name", loginForm.getUserName());
+        queryWrapper.eq("password", DigestUtil.md5Hex(loginForm.getPassword()));
+        Administrator administrator = administratorServiceImpl.getOne(queryWrapper);
+        if (administrator == null) {
+            return Result.fail("用户名或密码错误！");
+        }
+        return Result.success(jwtUtils.generateToken(administrator.getId()));
+    }
 
     /**
      * @param id 表主键
@@ -41,6 +66,7 @@ public class AdministratorController {
      */
     @ApiOperation(value = "查询管理员", notes = "根据id查找管理员")
     @ApiImplicitParam(paramType = "path", name = "id", value = "管理员id", required = true, dataType = "string")
+    @Login
     @GetMapping("/{id}")
     public Result get(@PathVariable String id) {
         Administrator administrator = administratorServiceImpl.getById(id);
@@ -60,6 +86,7 @@ public class AdministratorController {
     @ApiOperation(value = "分页查询管理员", notes = "带参数分页查询管理员")
     @ApiImplicitParam(paramType = "body", name = "administratorQueryForm", value = "管理员的实体", required = true, dataType = "AdministratorQueryForm")
     @PostMapping("/conditions")
+    @Login
     public Result conditions(@RequestBody @Valid AdministratorQueryForm administratorQueryForm) {
         QueryWrapper<Administrator> queryWrapper = administratorQueryForm.toParam(AdministratorQueryParam.class).build();
         Page page = administratorServiceImpl.page(administratorQueryForm.getPage(), queryWrapper);
@@ -76,6 +103,7 @@ public class AdministratorController {
     @ApiOperation(value = "带查询条件查询管理员", notes = "带查询条件查询管理员")
     @ApiImplicitParam(paramType = "query", name = "administratorQueryParam", value = "管理员的实体", required = true, dataType = "AdministratorQueryParam")
     @GetMapping
+    @Login
     public Result query(AdministratorQueryParam administratorQueryParam) {
         QueryWrapper<Administrator> queryWrapper = administratorQueryParam.build();
         return Result.success((administratorServiceImpl.list(queryWrapper).stream().map(AdministratorVo::new)).collect(Collectors.toList()));
@@ -91,8 +119,11 @@ public class AdministratorController {
     @ApiOperation(value = "保存管理员", notes = "保存管理员")
     @ApiImplicitParam(paramType = "body", name = "administratorForm", value = "管理员的实体", required = true, dataType = "AdministratorForm")
     @PostMapping
+    @Login
     public Result save(@RequestBody @Valid AdministratorForm administratorForm) {
         Administrator administrator = administratorForm.toPo(Administrator.class);
+        //保存时应对密码加密
+        administrator.setPassword(DigestUtil.md5Hex(administrator.getPassword()));
         administratorServiceImpl.save(administrator);
         return Result.success();
     }
@@ -110,9 +141,12 @@ public class AdministratorController {
             @ApiImplicitParam(paramType = "body", name = "administratorForm", value = "管理员实体", required = true, dataType = "AdministratorForm")
     })
     @PutMapping(value = "/{id}")
-    public Result update(@PathVariable String id, @RequestBody @Valid AdministratorForm administratorForm) {
+    @Login
+    public Result update(@PathVariable String id, @RequestBody AdministratorForm administratorForm) {
         Administrator administrator = administratorForm.toPo(Administrator.class);
         administrator.setId(id);
+        //保存时应对密码加密
+        administrator.setPassword(DigestUtil.md5Hex(administrator.getPassword()));
         administratorServiceImpl.updateById(administrator);
         return Result.success();
     }
@@ -127,6 +161,7 @@ public class AdministratorController {
     @ApiOperation(value = "删除一个管理员", notes = "根据id来删除一个管理员")
     @ApiImplicitParam(paramType = "path", name = "id", value = "要删除的管理员id", required = true, dataType = "string")
     @DeleteMapping(value = "/{id}")
+    @Login
     public Result delete(@PathVariable String id) {
         administratorServiceImpl.removeById(id);
         return Result.success();
@@ -142,6 +177,7 @@ public class AdministratorController {
     @ApiOperation(value = "批量删除管理员", notes = "根据多个id批量删除管理员")
     @ApiImplicitParam(paramType = "body", name = "ids", value = "要删除的管理员id们", required = true, dataType = "string")
     @DeleteMapping("/del/batch")
+    @Login
     public Result deleteBatch(@RequestBody List<String> ids) {
         administratorServiceImpl.removeByIds(ids);
         return Result.success();

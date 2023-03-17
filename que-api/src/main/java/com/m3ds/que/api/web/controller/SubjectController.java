@@ -9,6 +9,7 @@ import com.m3ds.que.account.entity.param.SubjectQueryParam;
 import com.m3ds.que.account.entity.po.Subject;
 import com.m3ds.que.account.entity.vo.SubjectVo;
 import com.m3ds.que.account.service.ISubjectService;
+import com.m3ds.que.api.annotation.Login;
 import com.m3ds.que.common.core.vo.Result;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -44,6 +45,7 @@ public class SubjectController {
     @ApiOperation(value = "查询受试者", notes = "根据id查找受试者")
     @ApiImplicitParam(paramType = "path", name = "id", value = "受试者id", required = true, dataType = "string")
     @GetMapping("/{id}")
+    @Login
     public Result get(@PathVariable String id) {
         Subject subject = subjectServiceImpl.getById(id);
         if (subject == null) {
@@ -62,6 +64,7 @@ public class SubjectController {
     @ApiOperation(value = "分页查询受试者", notes = "带参数分页查询受试者")
     @ApiImplicitParam(paramType = "body", name = "subjectQueryForm", value = "受试者的实体", required = true, dataType = "SubjectQueryForm")
     @PostMapping("/conditions")
+    @Login
     public Result conditions(@RequestBody @Valid SubjectQueryForm subjectQueryForm) {
         QueryWrapper<Subject> queryWrapper = subjectQueryForm.toParam(SubjectQueryParam.class).build();
         Page page = subjectServiceImpl.page(subjectQueryForm.getPage(), queryWrapper);
@@ -78,6 +81,7 @@ public class SubjectController {
     @ApiOperation(value = "带查询条件查询受试者", notes = "带查询条件查询受试者")
     @ApiImplicitParam(paramType = "query", name = "subjectQueryParam", value = "受试者的实体", required = true, dataType = "SubjectQueryParam")
     @GetMapping
+    @Login
     public Result query(SubjectQueryParam subjectQueryParam) {
         QueryWrapper<Subject> queryWrapper = subjectQueryParam.build();
         return Result.success((subjectServiceImpl.list(queryWrapper).stream().map(SubjectVo::new)).collect(Collectors.toList()));
@@ -93,6 +97,7 @@ public class SubjectController {
     @ApiOperation(value = "保存受试者", notes = "保存受试者")
     @ApiImplicitParam(paramType = "body", name = "subjectForm", value = "受试者的实体", required = true, dataType = "SubjectForm")
     @PostMapping
+    @Login
     public Result save(@RequestBody @Valid SubjectForm subjectForm) {
         Subject subject = subjectForm.toPo(Subject.class);
         subjectServiceImpl.save(subject);
@@ -109,6 +114,7 @@ public class SubjectController {
     @ApiOperation(value = "批量保存受试者", notes = "批量保存受试者")
     @ApiImplicitParam(paramType = "body", name = "subjectForms", value = "受试者的实体", required = true, dataType = "List<SubjectForm>")
     @PostMapping("/saveBatch")
+    @Login
     public Result saveBatch(@RequestBody List<SubjectForm> subjectForms) {
         List<Subject> subjects = subjectForms.stream().map(s -> s.toPo(Subject.class)).collect(Collectors.toList());
         subjectServiceImpl.saveBatch(subjects);
@@ -128,7 +134,8 @@ public class SubjectController {
             @ApiImplicitParam(paramType = "body", name = "subjectForm", value = "受试者实体", required = true, dataType = "SubjectForm")
     })
     @PutMapping(value = "/{id}")
-    public Result update(@PathVariable String id, @RequestBody @Valid SubjectForm subjectForm) {
+    @Login
+    public Result update(@PathVariable String id, @RequestBody SubjectForm subjectForm) {
         Subject subject = subjectForm.toPo(Subject.class);
         subject.setId(id);
         subjectServiceImpl.updateById(subject);
@@ -145,6 +152,7 @@ public class SubjectController {
     @ApiOperation(value = "删除一个受试者", notes = "根据id来删除一个受试者")
     @ApiImplicitParam(paramType = "path", name = "id", value = "要删除的受试者id", required = true, dataType = "string")
     @DeleteMapping(value = "/{id}")
+    @Login
     public Result delete(@PathVariable String id) {
         subjectServiceImpl.removeById(id);
         return Result.success();
@@ -160,6 +168,7 @@ public class SubjectController {
     @ApiOperation(value = "批量删除受试者", notes = "根据多个id批量删除受试者")
     @ApiImplicitParam(paramType = "body", name = "ids", value = "要删除的受试者id们", required = true, dataType = "string")
     @DeleteMapping("/del/batch")
+    @Login
     public Result deleteBatch(@RequestBody List<String> ids) {
         subjectServiceImpl.removeByIds(ids);
         return Result.success();

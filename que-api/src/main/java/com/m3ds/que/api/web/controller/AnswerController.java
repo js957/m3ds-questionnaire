@@ -2,6 +2,7 @@ package com.m3ds.que.api.web.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.m3ds.que.api.annotation.Login;
 import com.m3ds.que.center.entity.form.AnswerForm;
 import com.m3ds.que.center.entity.param.AnswerQueryParam;
 import com.m3ds.que.center.entity.po.Answer;
@@ -40,6 +41,7 @@ public class AnswerController {
     @ApiOperation(value = "带查询条件查询回答结果", notes = "带查询条件查询回答结果")
     @ApiImplicitParam(paramType = "query", name = "answerQueryParam", value = "回答结果的实体", required = true, dataType = "AnswerQueryParam")
     @GetMapping
+    @Login
     public Result query(@Valid AnswerQueryParam answerQueryParam) {
         QueryWrapper<Answer> queryWrapper = answerQueryParam.build();
         return Result.success((answerServiceImpl.list(queryWrapper).stream().map(AnswerVo::new)).collect(Collectors.toList()));
@@ -55,6 +57,7 @@ public class AnswerController {
     @ApiOperation(value = "保存回答结果", notes = "保存回答结果")
     @ApiImplicitParam(paramType = "body", name = "answerForm", value = "回答结果的实体", required = true, dataType = "AnswerForm")
     @PostMapping
+    @Login
     public Result save(@RequestBody @Valid AnswerForm answerForm) {
         Answer answer = answerForm.toPo(Answer.class);
         answerServiceImpl.save(answer);

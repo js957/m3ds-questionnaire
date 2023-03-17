@@ -3,6 +3,7 @@ package com.m3ds.que.api.web.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.m3ds.que.api.annotation.Login;
 import com.m3ds.que.center.entity.form.ModuleForm;
 import com.m3ds.que.center.entity.form.ModuleQueryForm;
 import com.m3ds.que.center.entity.param.ModuleQueryParam;
@@ -43,6 +44,7 @@ public class ModuleController {
     @ApiOperation(value = "查询模板下所有的模块和问题", notes = "根据模板id查询对应模板下的模块信息以及问题信息")
     @ApiImplicitParam(paramType = "path", name = "id", value = "模板id", required = true, dataType = "String")
     @GetMapping("/queryAllByTemplate/{id}")
+    @Login
     public Result queryAllByTemplate(@PathVariable String id) {
         List<ModuleAppVo> moduleVos = moduleServiceImpl.queryAllByTemplate(id);
         if (moduleVos == null || moduleVos.size() == 0) {
@@ -61,6 +63,7 @@ public class ModuleController {
     @ApiOperation(value = "查询问卷模块", notes = "根据id查找问卷模块")
     @ApiImplicitParam(paramType = "path", name = "id", value = "问卷模块id", required = true, dataType = "string")
     @GetMapping("/{id}")
+    @Login
     public Result get(@PathVariable String id) {
         Module module = moduleServiceImpl.getById(id);
         if (module == null) {
@@ -79,6 +82,7 @@ public class ModuleController {
     @ApiOperation(value = "分页查询问卷模块", notes = "带参数分页查询问卷模块")
     @ApiImplicitParam(paramType = "body", name = "moduleQueryForm", value = "问卷模块的实体", required = true, dataType = "ModuleQueryForm")
     @PostMapping("/conditions")
+    @Login
     public Result conditions(@RequestBody @Valid ModuleQueryForm moduleQueryForm) {
         QueryWrapper<Module> queryWrapper = moduleQueryForm.toParam(ModuleQueryParam.class).build();
         Page page = moduleServiceImpl.page(moduleQueryForm.getPage(), queryWrapper);
@@ -95,6 +99,7 @@ public class ModuleController {
     @ApiOperation(value = "带查询条件查询问卷模块", notes = "带查询条件查询问卷模块")
     @ApiImplicitParam(paramType = "query", name = "moduleQueryParam", value = "问卷模块的实体", required = true, dataType = "ModuleQueryParam")
     @GetMapping
+    @Login
     public Result query(@Valid ModuleQueryParam moduleQueryParam) {
         QueryWrapper<Module> queryWrapper = moduleQueryParam.build();
         return Result.success((moduleServiceImpl.list(queryWrapper).stream().map(ModuleVo::new)).collect(Collectors.toList()));
@@ -110,6 +115,7 @@ public class ModuleController {
     @ApiOperation(value = "保存问卷模块", notes = "保存问卷模块")
     @ApiImplicitParam(paramType = "body", name = "moduleForm", value = "问卷模块的实体", required = true, dataType = "ModuleForm")
     @PostMapping
+    @Login
     public Result save(@RequestBody @Valid ModuleForm moduleForm) {
         Module module = moduleForm.toPo(Module.class);
         moduleServiceImpl.save(module);
@@ -129,7 +135,8 @@ public class ModuleController {
             @ApiImplicitParam(paramType = "body", name = "moduleForm", value = "问卷模块实体", required = true, dataType = "ModuleForm")
     })
     @PutMapping(value = "/{id}")
-    public Result update(@PathVariable String id, @RequestBody @Valid ModuleForm moduleForm) {
+    @Login
+    public Result update(@PathVariable String id, @RequestBody ModuleForm moduleForm) {
         Module module = moduleForm.toPo(Module.class);
         module.setId(id);
         moduleServiceImpl.updateById(module);
@@ -146,6 +153,7 @@ public class ModuleController {
     @ApiOperation(value = "删除一个问卷模块", notes = "根据id来删除一个问卷模块")
     @ApiImplicitParam(paramType = "path", name = "id", value = "要删除的问卷模块id", required = true, dataType = "string")
     @DeleteMapping(value = "/{id}")
+    @Login
     public Result delete(@PathVariable String id) {
         moduleServiceImpl.removeById(id);
         return Result.success();
@@ -161,6 +169,7 @@ public class ModuleController {
     @ApiOperation(value = "批量删除问卷模块", notes = "根据多个id批量删除问卷模块")
     @ApiImplicitParam(paramType = "body", name = "ids", value = "要删除的问卷模块id们", required = true, dataType = "string")
     @DeleteMapping("/del/batch")
+    @Login
     public Result deleteBatch(@RequestBody List<String> ids) {
         moduleServiceImpl.removeByIds(ids);
         return Result.success();
