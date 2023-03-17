@@ -94,7 +94,7 @@ public class TemplateController {
     public Result save(@RequestBody @Valid TemplateForm templateForm) {
         Template template = templateForm.toPo(Template.class);
         templateServiceImpl.save(template);
-        return Result.success();
+        return Result.success(template.getId());
     }
 
     /**

@@ -113,7 +113,7 @@ public class ModuleController {
     public Result save(@RequestBody @Valid ModuleForm moduleForm) {
         Module module = moduleForm.toPo(Module.class);
         moduleServiceImpl.save(module);
-        return Result.success();
+        return Result.success(module.getId());
     }
 
     /**
