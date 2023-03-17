@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
+import java.util.Map;
+
 /**
  * tangzheng
  * 问卷模快Vo类
@@ -48,4 +50,8 @@ public class ModuleVo extends BaseVo<Module> {
      */
     private Integer serialNum;
 
+    /**
+     * 用于后台管理系统编辑模块时，回显表单编辑器的内容
+     */
+    private Map<String, Object> formJson;
 }

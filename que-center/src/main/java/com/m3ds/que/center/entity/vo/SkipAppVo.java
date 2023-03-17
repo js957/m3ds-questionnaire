@@ -43,6 +43,6 @@ public class SkipAppVo extends BaseVo<Skip> {
      * 跳转条件
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
-    private Map<String, Object> condition;
+    private Map<String, Object> conditionJson;
 
 }

@@ -7,6 +7,7 @@ import com.m3ds.que.center.entity.form.ModuleForm;
 import com.m3ds.que.center.entity.form.ModuleQueryForm;
 import com.m3ds.que.center.entity.param.ModuleQueryParam;
 import com.m3ds.que.center.entity.po.Module;
+import com.m3ds.que.center.entity.vo.ModuleAppVo;
 import com.m3ds.que.center.entity.vo.ModuleVo;
 import com.m3ds.que.center.service.IModuleService;
 import com.m3ds.que.common.core.vo.Result;
@@ -43,7 +44,7 @@ public class ModuleController {
     @ApiImplicitParam(paramType = "path", name = "id", value = "模板id", required = true, dataType = "String")
     @GetMapping("/queryAllByTemplate/{id}")
     public Result queryAllByTemplate(@PathVariable String id) {
-        List<ModuleVo> moduleVos = moduleServiceImpl.queryAllByTemplate(id);
+        List<ModuleAppVo> moduleVos = moduleServiceImpl.queryAllByTemplate(id);
         if (moduleVos == null || moduleVos.size() == 0) {
             return Result.fail("没有找到对应的模板信息！");
         }

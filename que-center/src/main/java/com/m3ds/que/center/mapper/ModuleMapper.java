@@ -2,6 +2,7 @@ package com.m3ds.que.center.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.m3ds.que.center.entity.po.Module;
+import com.m3ds.que.center.entity.vo.ModuleAppVo;
 import com.m3ds.que.center.entity.vo.ModuleVo;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
@@ -20,5 +21,5 @@ import java.util.List;
  */
 public interface ModuleMapper extends BaseMapper<Module> {
 
-    List<ModuleVo> queryAllByTemplate(String id);
+    List<ModuleAppVo> queryAllByTemplate(String id);
 }

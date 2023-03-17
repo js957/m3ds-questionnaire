@@ -1,9 +1,14 @@
 package com.m3ds.que.center.entity.po;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.m3ds.que.common.web.entity.po.BasePo;
+import com.m3ds.que.common.web.handler.JacksonTypeHandler;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldNameConstants;
+
+import java.util.Map;
 
 /**
  * tangzheng
@@ -12,6 +17,7 @@ import lombok.experimental.FieldNameConstants;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @FieldNameConstants
+@TableName(value = "module", autoResultMap = true)
 public class Module extends BasePo<Module> {
 
     private static final long serialVersionUID = 1L;
@@ -46,4 +52,10 @@ public class Module extends BasePo<Module> {
      * 排序序号
      */
     private Integer serialNum;
+
+    /**
+     * 用于后台管理系统编辑模块时，回显表单编辑器的内容
+     */
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private Map<String, Object> formJson;
 }

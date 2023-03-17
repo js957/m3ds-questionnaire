@@ -8,6 +8,7 @@ import lombok.Data;
 
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotBlank;
+import java.util.Map;
 
 /**
  * tangzheng
@@ -55,6 +56,12 @@ public class ModuleForm extends BaseForm<Module> {
      */
     @ApiModelProperty(value = "模块排序的序号")
     private Integer serialNum;
+
+    /**
+     * 用于后台管理系统编辑模块时，回显表单编辑器的内容
+     */
+    @ApiModelProperty(value = "表单编辑器的内容")
+    private Map<String, Object> formJson;
 
     /**
      * 若有排序，则排序序号不能为空
