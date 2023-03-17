@@ -3,6 +3,7 @@ package com.m3ds.que.account.entity.param;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.m3ds.que.account.entity.po.Subject;
 import com.m3ds.que.common.web.entity.param.BaseParam;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.util.StringUtils;
 
@@ -29,6 +30,11 @@ public class SubjectQueryParam extends BaseParam<Subject> {
      * 检查日期
      */
     private LocalDate begindate;
+
+    /**
+     * 性别
+     */
+    private String gender;
 
     /**
      * 问卷进行状态（0,未完成，1，进行中，2，已完成，3，已终止）

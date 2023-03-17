@@ -3,6 +3,7 @@ package com.m3ds.que.account.entity.vo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.m3ds.que.account.entity.po.Subject;
 import com.m3ds.que.common.web.entity.vo.BaseVo;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -38,6 +39,11 @@ public class SubjectVo extends BaseVo<Subject> {
      */
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private LocalDate birthday;
+
+    /**
+     * 性别
+     */
+    private String gender;
 
     /**
      * 负责的管理员id

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.m3ds.que.common.web.entity.po.BasePo;
 import com.m3ds.que.common.web.handler.JacksonTypeHandler;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -36,6 +37,11 @@ public class Subject extends BasePo<Subject> {
      * 出生日期
      */
     private LocalDate birthday;
+
+    /**
+     * 性别
+     */
+    private String gender;
 
     /**
      * 负责的管理员id
