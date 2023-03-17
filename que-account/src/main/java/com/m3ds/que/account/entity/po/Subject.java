@@ -17,7 +17,6 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName(value = "subject", autoResultMap = true)
 public class Subject extends BasePo<Subject> {
 
     private static final long serialVersionUID = 1L;
@@ -65,8 +64,7 @@ public class Subject extends BasePo<Subject> {
     /**
      * 诊断的疾病集合
      */
-    @TableField(typeHandler = JacksonTypeHandler.class)
-    private List<String> result;
+    private String result;
 
 
 }

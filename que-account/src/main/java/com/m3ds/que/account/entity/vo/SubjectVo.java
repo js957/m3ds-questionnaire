@@ -70,7 +70,7 @@ public class SubjectVo extends BaseVo<Subject> {
     /**
      * 诊断的疾病集合
      */
-    private List<String> result;
+    private String result;
 
 
 }

@@ -77,7 +77,7 @@ public class SubjectForm extends BaseForm<Subject> {
      * 诊断的疾病集合
      */
     @ApiModelProperty(value = "诊断的疾病集合")
-    private List<String> result;
+    private String result;
 
 
 }
