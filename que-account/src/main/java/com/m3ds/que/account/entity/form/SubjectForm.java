@@ -46,13 +46,6 @@ public class SubjectForm extends BaseForm<Subject> {
     private LocalDate birthday;
 
     /**
-     * 负责的管理员id
-     */
-    @NotBlank(message = "管理员信息出错")
-    @ApiModelProperty(value = "负责的管理员id")
-    private String adminId;
-
-    /**
      * 检查日期
      */
     @ApiModelProperty(value = "检查日期")

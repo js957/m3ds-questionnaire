@@ -3,6 +3,7 @@ package com.m3ds.que.api.web.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.m3ds.que.api.annotation.Login;
 import com.m3ds.que.center.entity.form.TemplateForm;
 import com.m3ds.que.center.entity.form.TemplateQueryForm;
 import com.m3ds.que.center.entity.param.TemplateQueryParam;
@@ -42,6 +43,7 @@ public class TemplateController {
     @ApiOperation(value = "查询回答模板", notes = "根据id查找回答模板")
     @ApiImplicitParam(paramType = "path", name = "id", value = "回答模板id", required = true, dataType = "string")
     @GetMapping("/{id}")
+    @Login
     public Result get(@PathVariable String id) {
         Template template = templateServiceImpl.getById(id);
         if (template == null) {
@@ -60,6 +62,7 @@ public class TemplateController {
     @ApiOperation(value = "分页查询回答模板", notes = "带参数分页查询回答模板")
     @ApiImplicitParam(paramType = "body", name = "templateQueryForm", value = "回答模板的实体", required = true, dataType = "TemplateQueryForm")
     @PostMapping("/conditions")
+    @Login
     public Result conditions(@RequestBody @Valid TemplateQueryForm templateQueryForm) {
         QueryWrapper<Template> queryWrapper = templateQueryForm.toParam(TemplateQueryParam.class).build();
         Page page = templateServiceImpl.page(templateQueryForm.getPage(), queryWrapper);
@@ -76,6 +79,7 @@ public class TemplateController {
     @ApiOperation(value = "带查询条件查询回答模板", notes = "带查询条件查询回答模板")
     @ApiImplicitParam(paramType = "query", name = "templateQueryParam", value = "回答模板的实体", required = true, dataType = "TemplateQueryParam")
     @GetMapping
+    @Login
     public Result query(@Valid TemplateQueryParam templateQueryParam) {
         QueryWrapper<Template> queryWrapper = templateQueryParam.build();
         return Result.success((templateServiceImpl.list(queryWrapper).stream().map(TemplateVo::new)).collect(Collectors.toList()));
@@ -91,6 +95,7 @@ public class TemplateController {
     @ApiOperation(value = "保存回答模板", notes = "保存回答模板")
     @ApiImplicitParam(paramType = "body", name = "templateForm", value = "回答模板的实体", required = true, dataType = "TemplateForm")
     @PostMapping
+    @Login
     public Result save(@RequestBody @Valid TemplateForm templateForm) {
         Template template = templateForm.toPo(Template.class);
         templateServiceImpl.save(template);
@@ -110,7 +115,8 @@ public class TemplateController {
             @ApiImplicitParam(paramType = "body", name = "templateForm", value = "回答模板实体", required = true, dataType = "TemplateForm")
     })
     @PutMapping(value = "/{id}")
-    public Result update(@PathVariable String id, @RequestBody @Valid TemplateForm templateForm) {
+    @Login
+    public Result update(@PathVariable String id, @RequestBody TemplateForm templateForm) {
         Template template = templateForm.toPo(Template.class);
         template.setId(id);
         templateServiceImpl.updateById(template);
@@ -127,6 +133,7 @@ public class TemplateController {
     @ApiOperation(value = "删除一个回答模板", notes = "根据id来删除一个回答模板")
     @ApiImplicitParam(paramType = "path", name = "id", value = "要删除的回答模板id", required = true, dataType = "string")
     @DeleteMapping(value = "/{id}")
+    @Login
     public Result delete(@PathVariable String id) {
         templateServiceImpl.removeById(id);
         return Result.success();
