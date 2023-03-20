@@ -52,10 +52,4 @@ public class Module extends BasePo<Module> {
      * 排序序号
      */
     private Integer serialNum;
-
-    /**
-     * 用于后台管理系统编辑模块时，回显表单编辑器的内容
-     */
-    @TableField(typeHandler = JacksonTypeHandler.class)
-    private Map<String, Object> formJson;
 }
