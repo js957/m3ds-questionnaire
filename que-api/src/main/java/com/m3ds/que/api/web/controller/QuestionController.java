@@ -2,6 +2,7 @@ package com.m3ds.que.api.web.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.incrementer.DefaultIdentifierGenerator;
 import com.m3ds.que.api.annotation.Login;
 import com.m3ds.que.center.entity.form.QuestionForm;
 import com.m3ds.que.center.entity.form.SkipForm;
@@ -46,16 +47,27 @@ public class QuestionController {
     @Transactional
     public Result save(@RequestBody @Valid QuestionForm questionForm) {
         //里面的对象要自己拿出来验证,顺便把form类转为po
+        DefaultIdentifierGenerator generator = new DefaultIdentifierGenerator();
         List<Skip> skips = new ArrayList<>();
+        List<String> skipIds = new ArrayList<>();
         List<SkipForm> skipRules = questionForm.getSkipRules();
-        skipRules.forEach(s -> {
-            ValidatorUtils.validateEntity(s);
-            skips.add(s.toPo(Skip.class));
-        });
+        for (SkipForm skipRule : skipRules) {
+            ValidatorUtils.validateEntity(skipRule);
+            Skip skip = skipRule.toPo(Skip.class);
+            String skipId = String.valueOf(generator.nextId(skip));
+            skip.setId(skipId);
+            skipIds.add(skipId);
+            skips.add(skip);
+        }
         Question question = questionForm.toPo(Question.class);
+        question.setSkipRuleIds(skipIds);
         questionServiceImpl.save(question);
+        String id = question.getId();
+        for (Skip skip : skips) {
+            skip.setQueId(id);
+        }
         skipServiceImpl.saveBatch(skips);
-        return Result.success(question.getId());
+        return Result.success(id);
     }
 
     /**

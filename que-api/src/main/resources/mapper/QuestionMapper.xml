@@ -14,7 +14,7 @@
                 typeHandler="com.m3ds.que.common.web.handler.JacksonTypeHandler"/>
         <result property="refIds" column="q_ref_ids"
                 typeHandler="com.m3ds.que.common.web.handler.JacksonTypeHandler"/>
-        <collection property="skipRules" ofType="com.m3ds.que.center.entity.vo.SkipAppVo">
+        <collection property="skipRules" ofType="com.m3ds.que.center.entity.vo.SkipVo">
             <id property="id" column="s_id"/>
             <result property="description" column="s_description"/>
             <result property="type" column="s_type"/>

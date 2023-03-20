@@ -7,6 +7,7 @@ import com.m3ds.que.center.entity.po.Skip;
 import com.m3ds.que.common.web.entity.vo.BaseVo;
 import com.m3ds.que.common.web.handler.JacksonTypeHandler;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.Map;
  * 问题vo
  */
 @Data
+@NoArgsConstructor
 @TableName(value = "question", autoResultMap = true)
 public class QuestionVo extends BaseVo<Question> {
 
@@ -59,22 +61,20 @@ public class QuestionVo extends BaseVo<Question> {
     /**
      * 选项
      */
+    @TableField(typeHandler = JacksonTypeHandler.class)
     private Map<String, Object> optData;
 
     /**
      * 跳转规则
      */
+    @TableField(typeHandler = JacksonTypeHandler.class)
     private List<SkipVo> skipRules;
 
     /**
      * 参考题目
      */
+    @TableField(typeHandler = JacksonTypeHandler.class)
     private List<String> refIds;
-
-    /**
-     * 选择规则
-     */
-    private List<String> optRuleId;
 
     /**
      * 序号

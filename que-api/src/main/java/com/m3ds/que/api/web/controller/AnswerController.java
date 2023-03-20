@@ -10,7 +10,6 @@ import com.m3ds.que.center.entity.vo.AnswerVo;
 import com.m3ds.que.center.service.IAnswerService;
 import com.m3ds.que.common.core.vo.Result;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 

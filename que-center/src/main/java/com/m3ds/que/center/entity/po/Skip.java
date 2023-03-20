@@ -1,16 +1,18 @@
 package com.m3ds.que.center.entity.po;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.m3ds.que.center.entity.struct.ConditionStruct;
 import com.m3ds.que.common.web.entity.po.BasePo;
 import com.m3ds.que.common.web.handler.JacksonTypeHandler;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.FieldNameConstants;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author wjs
@@ -29,7 +31,7 @@ public class Skip extends BasePo<Skip> {
     private String description;
 
     /**
-     * 跳转至题目为0	跳转至诊断框为1	跳转至子问题为2	跳转至模块为3	跳转至诊断程序问题4	
+     * 跳转至题目为0	跳转至诊断框为1	跳转至子问题为2	跳转至模块为3	跳转至诊断程序问题4
      */
     private Integer type;
 
@@ -47,7 +49,6 @@ public class Skip extends BasePo<Skip> {
      * 跳转条件
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
-    private ConditionStruct conditionJson;
-
+    private Map<String, Object> conditionJson;
 
 }
