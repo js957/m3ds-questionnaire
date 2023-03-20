@@ -22,6 +22,11 @@ public class SkipForm extends BaseForm<Skip> {
      */
     private String description;
 
+    /**
+     * 跳转至题目为0	跳转至诊断框为1	跳转至子问题为2	跳转至模块为3	跳转至诊断程序问题4
+     */
+    @NotNull(message = "类型不许为空",groups = {AddGroup.class})
+    private Integer type;
 
     /**
      * 根据问题id获取子问题

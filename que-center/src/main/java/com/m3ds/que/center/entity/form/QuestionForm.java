@@ -2,6 +2,8 @@ package com.m3ds.que.center.entity.form;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.m3ds.que.center.entity.po.Question;
+import com.m3ds.que.center.entity.po.Skip;
+import com.m3ds.que.center.entity.vo.SkipVo;
 import com.m3ds.que.common.web.entity.form.BaseForm;
 import com.m3ds.que.common.web.handler.JacksonTypeHandler;
 import com.m3ds.que.common.web.validator.group.AddGroup;
@@ -76,5 +78,15 @@ public class QuestionForm extends BaseForm<Question> {
      * 参考规则
      */
     private List<String> refIds;
+
+    /**
+     * 排序序号
+     */
+    private Integer serialNum;
+
+    /**
+     * 跳转规则列表
+     */
+    private List<SkipForm> skipRules;
 
 }

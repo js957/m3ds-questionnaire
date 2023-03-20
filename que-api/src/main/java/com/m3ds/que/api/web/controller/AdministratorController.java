@@ -143,7 +143,7 @@ public class AdministratorController {
         queryWrapper.eq("user_name",administrator.getUserName());
         int count = administratorServiceImpl.count(queryWrapper);
         //有相同username的话，就返回false
-        if (count < 1){
+        if (count > 0){
             return Result.fail("用户名已被占用");
         }
         //保存时应对密码加密
