@@ -12,7 +12,6 @@ import com.m3ds.que.center.service.IQuestionService;
 import com.m3ds.que.center.service.ISkipService;
 import com.m3ds.que.common.core.vo.Result;
 import com.m3ds.que.common.web.validator.ValidatorUtils;
-import com.m3ds.que.common.web.validator.group.AddGroup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -82,6 +81,7 @@ public class QuestionController {
      * @description 更新问题
      */
     @PutMapping("/{id}")
+    @Login
     public Result update(@PathVariable String id, @RequestBody QuestionForm questionForm) {
         //里面的对象要自己拿出来验证,顺便把form类转为po
         List<Skip> skips = new ArrayList<>();
@@ -109,6 +109,7 @@ public class QuestionController {
      * @description 根据id查询问题(包括之下的skip)
      */
     @GetMapping("/{id}")
+    @Login
     public Result get(@PathVariable String id) {
         QuestionVo questionVo = questionServiceImpl.queryQuestionWithSkip(id);
         return Result.success(questionVo);
@@ -122,6 +123,7 @@ public class QuestionController {
      * @description 根据模块id查询问题(包括之下的skip)
      */
     @GetMapping("/queryByModule/{moduleId}")
+    @Login
     public Result queryByModule(@PathVariable String moduleId) {
         List<QuestionVo> questionVos = questionServiceImpl.queryByModule(moduleId);
         return Result.success(questionVos);

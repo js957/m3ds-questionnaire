@@ -11,6 +11,7 @@ import com.m3ds.que.account.entity.vo.SubjectVo;
 import com.m3ds.que.account.service.ISubjectService;
 import com.m3ds.que.api.annotation.Login;
 import com.m3ds.que.common.core.vo.Result;
+import com.m3ds.que.common.web.validator.ValidatorUtils;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -117,8 +119,13 @@ public class SubjectController {
     @PostMapping("/saveBatch")
     @Login
     public Result saveBatch(@RequestBody List<SubjectForm> subjectForms, @RequestAttribute String userId) {
-        List<Subject> subjects = subjectForms.stream().map(s -> s.toPo(Subject.class)).collect(Collectors.toList());
-        subjects.forEach(s -> s.setAdminId(userId));
+        List<Subject> subjects = new ArrayList<>();
+        subjectForms.forEach(s ->{
+            ValidatorUtils.validateEntity(s);
+            Subject subject = s.toPo(Subject.class);
+            subject.setAdminId(userId);
+            subjects.add(subject);
+        });
         subjectServiceImpl.saveBatch(subjects);
         return Result.success();
     }
