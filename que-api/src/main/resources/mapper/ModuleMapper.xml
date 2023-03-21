@@ -37,6 +37,16 @@
             <result property="no" column="q_no"/>
         </collection>
     </resultMap>
+    <resultMap id="simplifiedResultMapForSkip" type="java.util.Map">
+        <id property="id" column="m_id"/>
+        <result property="no" column="m_no"/>
+        <collection property="questions" ofType="java.util.Map" javaType="java.util.List">
+            <id property="id" column="q_id"/>
+            <result property="no" column="q_no"/>
+            <result property="optData" column="q_opt_data" javaType="java.util.Map"
+                    typeHandler="com.m3ds.que.common.web.handler.JacksonTypeHandler"/>
+        </collection>
+    </resultMap>
     <select id="queryAllByTemplate" resultMap="appResultMap">
         select m.id,
                m.template_id,
@@ -73,6 +83,20 @@
                  LEFT JOIN
              question q ON m.id = q.module_id AND q.deleted = 0
         WHERE m.template_id = #{templateId}
+          AND m.deleted = 0
+        ORDER BY m.sorted DESC, m.serial_num, q.serial_num
+    </select>
+    <select id="querySimplifiedTreeForSkip" resultMap="simplifiedResultMapForSkip">
+        SELECT m.id          m_id,
+               m.module_no   m_no,
+               q.id          q_id,
+               q.question_no q_no,
+               q.opt_data    q_opt_data
+        FROM module m
+                 LEFT JOIN
+             question q ON m.id = q.module_id AND q.deleted = 0
+        WHERE m.template_id = #{templateId}
+          and q.opt_type = 'RADIO'
           AND m.deleted = 0
         ORDER BY m.sorted DESC, m.serial_num, q.serial_num
     </select>

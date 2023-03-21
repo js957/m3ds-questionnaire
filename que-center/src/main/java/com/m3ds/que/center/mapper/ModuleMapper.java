@@ -39,4 +39,12 @@ public interface ModuleMapper extends BaseMapper<Module> {
      * @description 根据模板id查询对应模板下的模块(id, no)以及问题(id, no)
      */
     List<Map<String, Object>> querySimplifiedTree(String templateId);
+
+    /**
+     * @param templateId 模板id
+     * @author tangzheng
+     * @date 2023/3/10 14:54
+     * @description 根据模板id查询对应模板下的模块(id,no)以及下属的单选题(id,no),除此之外问题将附带conditionJson
+     */
+    List<Map<String, Object>> querySimplifiedTreeForSkip(String templateId);
 }

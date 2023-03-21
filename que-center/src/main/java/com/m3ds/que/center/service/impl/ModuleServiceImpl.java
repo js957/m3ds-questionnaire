@@ -20,7 +20,6 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
 
     /**
      * @param templateId 模板id
-     * @return com.m3ds.que.common.core.vo.Result
      * @author tangzheng
      * @date 2023/3/10 14:54
      * @description 根据模板id查询对应模板下的模块信息以及问题信息
@@ -32,7 +31,6 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
 
     /**
      * @param templateId 模板id
-     * @return com.m3ds.que.common.core.vo.Result
      * @author tangzheng
      * @date 2023/3/10 14:54
      * @description 根据模板id查询对应模板下的模块(id, no)以及问题(id, no)
@@ -40,5 +38,16 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
     @Override
     public List<Map<String, Object>> querySimplifiedTree(String templateId) {
         return baseMapper.querySimplifiedTree(templateId);
+    }
+
+    /**
+     * @param templateId 模板id
+     * @author tangzheng
+     * @date 2023/3/10 14:54
+     * @description 根据模板id查询对应模板下的模块(id,no)以及下属的单选题(id,no),除此之外问题将附带conditionJson
+     */
+    @Override
+    public List<Map<String, Object>> querySimplifiedTreeForSkip(String templateId) {
+        return baseMapper.querySimplifiedTreeForSkip(templateId);
     }
 }

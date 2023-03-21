@@ -47,27 +47,9 @@ public class QuestionController {
     @Transactional
     public Result save(@RequestBody @Valid QuestionForm questionForm) {
         //里面的对象要自己拿出来验证,顺便把form类转为po
-        DefaultIdentifierGenerator generator = new DefaultIdentifierGenerator();
-        List<Skip> skips = new ArrayList<>();
-        List<String> skipIds = new ArrayList<>();
-        List<SkipForm> skipRules = questionForm.getSkipRules();
-        for (SkipForm skipRule : skipRules) {
-            ValidatorUtils.validateEntity(skipRule);
-            Skip skip = skipRule.toPo(Skip.class);
-            String skipId = String.valueOf(generator.nextId(skip));
-            skip.setId(skipId);
-            skipIds.add(skipId);
-            skips.add(skip);
-        }
         Question question = questionForm.toPo(Question.class);
-        question.setSkipRuleIds(skipIds);
         questionServiceImpl.save(question);
-        String id = question.getId();
-        for (Skip skip : skips) {
-            skip.setQueId(id);
-        }
-        skipServiceImpl.saveBatch(skips);
-        return Result.success(id);
+        return Result.success(question.getId());
     }
 
     /**
@@ -96,30 +78,9 @@ public class QuestionController {
     @Login
     public Result update(@PathVariable String id, @RequestBody QuestionForm questionForm) {
         //里面的对象要自己拿出来验证,顺便把form类转为po
-        DefaultIdentifierGenerator generator = new DefaultIdentifierGenerator();
-        List<Skip> skips = new ArrayList<>();
-        List<String> skipIds = new ArrayList<>();
-        List<SkipForm> skipRules = questionForm.getSkipRules();
-        for (SkipForm skipRule : skipRules) {
-            ValidatorUtils.validateEntity(skipRule);
-            Skip skip = skipRule.toPo(Skip.class);
-            String skipId = String.valueOf(generator.nextId(skip));
-            skip.setId(skipId);
-            skipIds.add(skipId);
-            skips.add(skip);
-        }
         Question question = questionForm.toPo(Question.class);
         question.setId(id);
-        question.setSkipRuleIds(skipIds);
         questionServiceImpl.updateById(question);
-        QueryWrapper<Skip> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("que_id", id);
-        for (Skip skip : skips) {
-            skip.setQueId(id);
-        }
-        //如果又要更新又要插入，会很乱，没必要
-        skipServiceImpl.remove(queryWrapper);
-        skipServiceImpl.saveBatch(skips);
         return Result.success();
     }
 
