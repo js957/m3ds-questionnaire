@@ -43,5 +43,5 @@ public class SkipForm extends BaseForm<Skip> {
      * 跳转条件
      */
     @NotNull(message = "跳转条件不允许为空", groups = {AddGroup.class, UpdateGroup.class})
-    private Map<String, Object> conditionJson;
+    private List<Map<String, Object>> conditionJson;
 }

@@ -49,6 +49,6 @@ public class Skip extends BasePo<Skip> {
      * 跳转条件
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
-    private Map<String, Object> conditionJson;
+    private List<Map<String, Object>> conditionJson;
 
 }

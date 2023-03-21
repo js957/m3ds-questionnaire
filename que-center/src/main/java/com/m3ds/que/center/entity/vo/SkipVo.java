@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,6 +44,6 @@ public class SkipVo extends BaseVo<Skip> {
      * 跳转条件
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
-    private Map<String, Object> conditionJson;
+    private List<Map<String, Object>> conditionJson;
 
 }
