@@ -14,7 +14,7 @@ import java.util.Map;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author wjs
@@ -23,8 +23,8 @@ import java.util.Map;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
-@TableName(autoResultMap = true)
 @FieldNameConstants
+@TableName(value = "question", autoResultMap = true)
 public class Question extends BasePo<Question> {
 
     private static final long serialVersionUID = 1L;
@@ -80,7 +80,8 @@ public class Question extends BasePo<Question> {
     /**
      * 跳转规则
      */
-    private String skipRuleId;
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private List<String> skipRuleIds;
 
     /**
      * 选择规则

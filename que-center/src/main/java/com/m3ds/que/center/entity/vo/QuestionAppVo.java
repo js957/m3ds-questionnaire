@@ -64,7 +64,7 @@ public class QuestionAppVo extends BaseVo<Question> {
     /**
      * 跳转规则
      */
-    private SkipAppVo skipRule;
+    private List<SkipAppVo> skipRules;
 
     /**
      * 需要参考的题目列表

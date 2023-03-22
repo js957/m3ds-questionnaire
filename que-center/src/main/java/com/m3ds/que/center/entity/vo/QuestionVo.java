@@ -1,35 +1,30 @@
 package com.m3ds.que.center.entity.vo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.m3ds.que.center.entity.po.Question;
 import com.m3ds.que.center.entity.po.Skip;
 import com.m3ds.que.common.web.entity.vo.BaseVo;
 import com.m3ds.que.common.web.handler.JacksonTypeHandler;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * Created by wjs on 2023/03/16
+ * tangzheng
+ * 问题vo
  */
 @Data
+@NoArgsConstructor
+@TableName(value = "question", autoResultMap = true)
 public class QuestionVo extends BaseVo<Question> {
 
-    public QuestionVo(Question question){
+    public QuestionVo(Question question) {
         BeanUtils.copyProperties(question, this);
     }
-
-    /**
-     * 问题属于哪个模块
-     */
-    private String moduleId;
-
-    /**
-     * 模块编号用于显示
-     */
-    private String moduleNo;
 
     /**
      * 问题的编号用于线索
@@ -66,20 +61,23 @@ public class QuestionVo extends BaseVo<Question> {
     /**
      * 选项
      */
+    @TableField(typeHandler = JacksonTypeHandler.class)
     private Map<String, Object> optData;
 
     /**
      * 跳转规则
      */
-    private Skip skip;
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private List<SkipVo> skipRules;
 
     /**
-     * 选择规则
+     * 参考题目
      */
-    private List<String> optRuleId;
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private List<String> refIds;
 
     /**
      * 序号
      */
-    private long serialNum;
+    private Integer serialNum;
 }

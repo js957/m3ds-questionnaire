@@ -14,14 +14,14 @@ import java.util.Map;
 
 /**
  * tangzheng
- * 跳转规则在App上的vo类
+ * 跳转规则vo类
  */
 @Data
 @NoArgsConstructor
 @TableName(value = "skip", autoResultMap = true)
-public class SkipAppVo extends BaseVo<Skip> {
+public class SkipVo extends BaseVo<Skip> {
 
-    public SkipAppVo(Skip skip){
+    public SkipVo(Skip skip){
         BeanUtils.copyProperties(skip, this);
     }
 

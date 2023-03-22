@@ -1,12 +1,8 @@
 package com.m3ds.que.center.entity.form;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.m3ds.que.center.entity.po.Question;
 import com.m3ds.que.common.web.entity.form.BaseForm;
-import com.m3ds.que.common.web.handler.JacksonTypeHandler;
 import com.m3ds.que.common.web.validator.group.AddGroup;
-import com.m3ds.que.common.web.validator.group.DeleteGroup;
-import com.m3ds.que.common.web.validator.group.UpdateGroup;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -76,5 +72,16 @@ public class QuestionForm extends BaseForm<Question> {
      * 参考规则
      */
     private List<String> refIds;
+
+    /**
+     * 排序序号
+     */
+    @NotNull(message = "序号不为空")
+    private Integer serialNum;
+
+    /**
+     * 跳转规则列表
+     */
+    private List<SkipForm> skipRules;
 
 }

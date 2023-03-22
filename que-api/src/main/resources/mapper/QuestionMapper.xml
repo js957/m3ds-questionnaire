@@ -1,5 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ynufrd.psyquestioner.mapper.QuestionMapper">
-
+<mapper namespace="com.m3ds.que.center.mapper.QuestionMapper">
+    <resultMap id="baseResultMap" type="com.m3ds.que.center.entity.vo.QuestionVo">
+        <id property="id" column="q_id"/>
+        <result property="questionNo" column="q_question_no"/>
+        <result property="queType" column="q_que_type"/>
+        <result property="optType" column="q_opt_type"/>
+        <result property="issue" column="q_issue"/>
+        <result property="note" column="q_note"/>
+        <result property="answers" column="q_answers"/>
+        <result property="serialNum" column="q_serial_num"/>
+        <result property="optData" column="q_opt_data"
+                typeHandler="com.m3ds.que.common.web.handler.JacksonTypeHandler"/>
+        <result property="refIds" column="q_ref_ids"
+                typeHandler="com.m3ds.que.common.web.handler.JacksonTypeHandler"/>
+        <collection property="skipRules" ofType="com.m3ds.que.center.entity.vo.SkipVo">
+            <id property="id" column="s_id"/>
+            <result property="description" column="s_description"/>
+            <result property="type" column="s_type"/>
+            <result property="target" column="s_target"/>
+            <result property="conditionJson" column="s_condition_json"
+                    typeHandler="com.m3ds.que.common.web.handler.JacksonTypeHandler"/>
+        </collection>
+    </resultMap>
+    <select id="queryQuestionWithSkip" resultMap="baseResultMap">
+        SELECT q.id               q_id,
+               q.question_no      q_question_no,
+               q.que_type         q_que_type,
+               q.opt_type         q_opt_type,
+               q.issue            q_issue,
+               q.note             q_note,
+               q.answers          q_answers,
+               q.`opt_data`       q_opt_data,
+               q.ref_ids          q_ref_ids,
+               q.serial_num       q_serial_num,
+               s.id               s_id,
+               s.`description`    s_description,
+               s.`type`           s_type,
+               s.target           s_target,
+               s.`condition_json` s_condition_json
+        FROM question q
+                 LEFT JOIN
+             `skip` s ON q.id = s.que_id AND s.deleted = 0
+        WHERE q.id = #{id}
+          AND q.deleted = 0
+        ORDER BY q.serial_num
+    </select>
+    <select id="queryByModule" resultMap="baseResultMap">
+        SELECT q.id               q_id,
+               q.question_no      q_question_no,
+               q.que_type         q_que_type,
+               q.opt_type         q_opt_type,
+               q.issue            q_issue,
+               q.note             q_note,
+               q.answers          q_answers,
+               q.`opt_data`       q_opt_data,
+               q.ref_ids          q_ref_ids,
+               q.serial_num       q_serial_num,
+               s.id               s_id,
+               s.`description`    s_description,
+               s.`type`           s_type,
+               s.target           s_target,
+               s.`condition_json` s_condition_json
+        FROM question q
+                 LEFT JOIN
+             `skip` s ON q.id = s.que_id AND s.deleted = 0
+        WHERE q.module_id = #{moduleId}
+          AND q.deleted = 0
+        ORDER BY q.serial_num
+    </select>
 </mapper>

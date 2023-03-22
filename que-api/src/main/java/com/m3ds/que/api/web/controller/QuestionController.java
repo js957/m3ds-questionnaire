@@ -1,45 +1,33 @@
 package com.m3ds.que.api.web.controller;
 
 
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.m3ds.que.center.constant.RedisKeyConstants;
-import com.m3ds.que.center.entity.form.QuestSortForm;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.incrementer.DefaultIdentifierGenerator;
+import com.m3ds.que.api.annotation.Login;
 import com.m3ds.que.center.entity.form.QuestionForm;
+import com.m3ds.que.center.entity.form.SkipForm;
 import com.m3ds.que.center.entity.po.Question;
 import com.m3ds.que.center.entity.po.Skip;
-import com.m3ds.que.center.entity.vo.QuestionAppVo;
 import com.m3ds.que.center.entity.vo.QuestionVo;
-import com.m3ds.que.center.entity.vo.SkipAppVo;
 import com.m3ds.que.center.service.IQuestionService;
 import com.m3ds.que.center.service.ISkipService;
-import com.m3ds.que.center.service.impl.SkipServiceImpl;
-import com.m3ds.que.center.utils.SortUtils;
 import com.m3ds.que.common.core.vo.Result;
 import com.m3ds.que.common.web.validator.ValidatorUtils;
-import com.m3ds.que.common.web.validator.group.AddGroup;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * <p>
- *  前端控制器
- * </p>
- *
- * @author wjs
- * @since 2023-02-26
+ * tangzheng
+ * 问题controller
  */
 @RestController
 @RequestMapping("/question")
 public class QuestionController {
-
-    @Autowired
-    private SortUtils sortUtils;
 
     @Autowired
     private IQuestionService questionServiceImpl;
@@ -48,88 +36,79 @@ public class QuestionController {
     private ISkipService skipServiceImpl;
 
     /**
-    *@Param:
-    *@Author: wjs
-    *@date: 17:47
-     * 创建问题
-    */
-    @PostMapping("/create")
-    public Result create(@RequestBody QuestionForm questionForm){
-        ValidatorUtils.validateEntity(questionForm, AddGroup.class);
+     * @param questionForm 要保存的对象
+     * @return com.m3ds.que.common.core.vo.Result
+     * @author tangzheng
+     * @date 2023/3/10 14:55
+     * @description 保存问题 有事务
+     */
+    @PostMapping
+    @Login
+    @Transactional
+    public Result save(@RequestBody @Valid QuestionForm questionForm) {
+        //里面的对象要自己拿出来验证,顺便把form类转为po
         Question question = questionForm.toPo(Question.class);
-        question.setSerialNum(sortUtils.getInitialSortPosition(
-                StrUtil.format(RedisKeyConstants.MODULE_QUE_POS_DELTA, question.getModuleId())));
-        boolean result = questionServiceImpl.saveOrUpdate(question);
-        return Result.success(new QuestionAppVo(question));
+        questionServiceImpl.save(question);
+        return Result.success(question.getId());
     }
 
     /**
-    *@Param:
-    *@Author: wjs
-    *@date: 17:47
-     * 删除问题
-    */
-    @DeleteMapping("/{id}")
-    public Result delete(@PathVariable String id){
-        skipServiceImpl.remove(Wrappers.<Skip>lambdaQuery().eq(Skip::getQueId, id));
-        return Result.success(questionServiceImpl.removeById(id));
+     * @param id 要删除的问题id
+     * @return com.m3ds.que.common.core.vo.Result
+     * @author tangzheng
+     * @date 2023/3/10 16:55
+     * @description 删除一个问题
+     */
+    @DeleteMapping(value = "/{id}")
+    @Login
+    public Result delete(@PathVariable String id) {
+        questionServiceImpl.removeById(id);
+        return Result.success();
     }
 
     /**
-    *@Param:
-    *@Author: wjs
-    *@date: 17:47
-     * 修改问题
-    */
+     * @param questionForm 要更新的问题对象
+     * @param id           问题id
+     * @return com.m3ds.que.common.core.vo.Result
+     * @author tangzheng
+     * @date 2023/3/10 14:55
+     * @description 更新问题
+     */
     @PutMapping("/{id}")
-    public Result update(@PathVariable String id, @RequestBody QuestionForm questionForm){
+    @Login
+    public Result update(@PathVariable String id, @RequestBody QuestionForm questionForm) {
+        //里面的对象要自己拿出来验证,顺便把form类转为po
         Question question = questionForm.toPo(Question.class);
         question.setId(id);
-        return Result.success(questionServiceImpl.updateById(question));
+        questionServiceImpl.updateById(question);
+        return Result.success();
     }
 
     /**
-    *@Param:
-    *@Author: wjs
-    *@date: 17:47
-     * 获取问题
-    */
+     * @param id 问题表主键
+     * @return com.m3ds.que.common.core.vo.Result
+     * @author tangzheng
+     * @date 2023/3/10 14:52
+     * @description 根据id查询问题(包括之下的skip)
+     */
     @GetMapping("/{id}")
-    public Result get(@PathVariable String id){
-        Question question = questionServiceImpl.getById(id);
-        QuestionAppVo questionVo = new QuestionAppVo(question);
-        if(StrUtil.isNotEmpty(question.getSkipRuleId())){
-            Skip skip = skipServiceImpl.getById(question.getSkipRuleId());
-            questionVo.setSkipRule(new SkipAppVo(skip));
-        }
-
+    @Login
+    public Result get(@PathVariable String id) {
+        QuestionVo questionVo = questionServiceImpl.queryQuestionWithSkip(id);
         return Result.success(questionVo);
     }
 
     /**
-    *@Param:
-    *@Author: wjs
-    *@date: 21:47
-     * 修改顺序
-    */
-    @PostMapping("/sort")
-    public Result sort(@RequestBody QuestSortForm questSortForm){
-        ValidatorUtils.validateEntity(questSortForm);
-        if (ObjectUtil.isNull(questSortForm.getAfterPosition())
-                && ObjectUtil.isNull(questSortForm.getBeforePosition())) {
-            return Result.success();
-        }
-        Question question = questionServiceImpl.getById(questSortForm.getQueId());
-        Long sort = sortUtils.calcSortPosition(questSortForm.getBeforePosition(), questSortForm.getAfterPosition());
-        question.setSerialNum(sort);
-        boolean result = questionServiceImpl.updateById(question);
-        QuestionVo questionVo = new QuestionVo(question);
-        if(StrUtil.isNotEmpty(question.getSkipRuleId())) {
-            questionVo.setSkip(skipServiceImpl.getById(question.getSkipRuleId()));
-        }
-        return Result.success(questionVo);
+     * @param moduleId 模块表主键
+     * @return com.m3ds.que.common.core.vo.Result
+     * @author tangzheng
+     * @date 2023/3/10 14:52
+     * @description 根据模块id查询问题(包括之下的skip)
+     */
+    @GetMapping("/queryByModule/{moduleId}")
+    @Login
+    public Result queryByModule(@PathVariable String moduleId) {
+        List<QuestionVo> questionVos = questionServiceImpl.queryByModule(moduleId);
+        return Result.success(questionVos);
     }
-
-
-
 }

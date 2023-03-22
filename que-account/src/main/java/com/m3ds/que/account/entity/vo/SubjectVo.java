@@ -67,5 +67,9 @@ public class SubjectVo extends BaseVo<Subject> {
      */
     private String result;
 
+    /**
+     * 1男2女
+     */
+    private Integer gender;
 
 }

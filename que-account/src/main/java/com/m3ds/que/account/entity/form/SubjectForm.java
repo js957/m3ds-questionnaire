@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -78,5 +79,10 @@ public class SubjectForm extends BaseForm<Subject> {
     @ApiModelProperty(value = "诊断的疾病集合")
     private String result;
 
+    /**
+     * 1男2女
+     */
+    @NotNull(message = "性别不能为空")
+    private Integer gender;
 
 }

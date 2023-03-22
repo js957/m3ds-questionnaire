@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -35,7 +37,7 @@ public class ModuleController {
     private IModuleService moduleServiceImpl;
 
     /**
-     * @param id 模板id
+     * @param templateId 模板id
      * @return com.m3ds.que.common.core.vo.Result
      * @author tangzheng
      * @date 2023/3/10 14:54
@@ -43,10 +45,52 @@ public class ModuleController {
      */
     @ApiOperation(value = "查询模板下所有的模块和问题", notes = "根据模板id查询对应模板下的模块信息以及问题信息")
     @ApiImplicitParam(paramType = "path", name = "id", value = "模板id", required = true, dataType = "String")
-    @GetMapping("/queryAllByTemplate/{id}")
+    @GetMapping("/queryAllByTemplate/{templateId}")
     @Login
-    public Result queryAllByTemplate(@PathVariable String id) {
-        List<ModuleAppVo> moduleVos = moduleServiceImpl.queryAllByTemplate(id);
+    public Result queryAllByTemplate(@PathVariable String templateId) {
+        List<ModuleAppVo> moduleVos = moduleServiceImpl.queryAllByTemplate(templateId);
+        if (moduleVos == null || moduleVos.size() == 0) {
+            return Result.fail("没有找到对应的模板信息！");
+        }
+        return Result.success(moduleVos);
+    }
+
+    /**
+     * @param templateId 模板id
+     * @return com.m3ds.que.common.core.vo.Result
+     * @author tangzheng
+     * @date 2023/3/10 14:54
+     * @description 根据模板id查询对应模板下的模块(id,no)以及问题(id,no)
+     */
+    @ApiOperation(value = "查询模板下所有的模块和问题", notes = "根据模板id查询对应模板下的模块信息以及问题信息")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "模板id", required = true, dataType = "String")
+    @GetMapping("/querySimplifiedTree/{templateId}")
+    @Login
+    public Result querySimplifiedTree(@PathVariable String templateId) {
+        List<Map<String, Object>> moduleVos = moduleServiceImpl.querySimplifiedTree(templateId);
+        if (moduleVos == null || moduleVos.size() == 0) {
+            return Result.fail("没有找到对应的模板信息！");
+        }
+        List<Map<String, Object>> moduleVos2 = moduleServiceImpl.querySimplifiedTreeForSkip(templateId);
+        Map<String,Object> map = new HashMap<>();
+        map.put("data1",moduleVos);
+        map.put("data2",moduleVos2);
+        return Result.success(map);
+    }
+
+    /**
+     * @param templateId 模板id
+     * @return com.m3ds.que.common.core.vo.Result
+     * @author tangzheng
+     * @date 2023/3/10 14:54
+     * @description 根据模板id查询对应模板下的模块(id,no)以及下属的单选题(id,no),除此之外问题将附带conditionJson
+     */
+    @ApiOperation(value = "查询模板下所有的模块和问题", notes = "根据模板id查询对应模板下的模块信息以及问题信息")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "模板id", required = true, dataType = "String")
+    @GetMapping("/querySimplifiedTreeForSkip/{templateId}")
+    @Login
+    public Result querySimplifiedTreeForSkip(@PathVariable String templateId) {
+        List<Map<String, Object>> moduleVos = moduleServiceImpl.querySimplifiedTreeForSkip(templateId);
         if (moduleVos == null || moduleVos.size() == 0) {
             return Result.fail("没有找到对应的模板信息！");
         }

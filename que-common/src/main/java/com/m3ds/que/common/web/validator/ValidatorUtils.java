@@ -49,11 +49,10 @@ public class ValidatorUtils {
         if (!constraintViolations.isEmpty()) {
             StringBuilder msg = new StringBuilder();
             for (ConstraintViolation<Object> constraint : constraintViolations) {
-                msg.append(constraint.getMessage()).append("<br>");
+                msg.append(constraint.getMessageTemplate()).append("<br>");
             }
             ControllerErrorType error = ControllerErrorType.FIELD_VERIFICATION_ERROR;
-            error.setMsg(msg.toString());
-            throw new BaseException(error);
+            throw new BaseException(error, msg.toString());
         }
     }
 }
