@@ -72,7 +72,11 @@ public class SkipForm extends BaseForm<Skip> {
             }
             //判断分数时
             if (this.type == 2) {
-
+                List<String> questions = (List<String>) this.conditionJson.get("questions");
+                Integer score = (Integer) this.conditionJson.get("questions");
+                if (questions == null || questions.size() == 0 || score == null) {
+                    return false;
+                }
             }
             //判断选中数量时
             if (this.type == 3) {
