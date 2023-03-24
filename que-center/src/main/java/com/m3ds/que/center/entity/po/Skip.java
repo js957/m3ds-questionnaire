@@ -31,7 +31,7 @@ public class Skip extends BasePo<Skip> {
     private String description;
 
     /**
-     * 跳转至题目为0	跳转至诊断框为1	跳转至子问题为2	跳转至模块为3	跳转至诊断程序问题4
+     * 1：按各题选项跳转，2：按答题分数跳转，3：按选中数量跳转
      */
     private Integer type;
 
@@ -49,6 +49,6 @@ public class Skip extends BasePo<Skip> {
      * 跳转条件
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
-    private List<Map<String, Object>> conditionJson;
+    private Map<String, Object> conditionJson;
 
 }
