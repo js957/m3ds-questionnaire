@@ -42,10 +42,17 @@ public class SkipForm extends BaseForm<Skip> {
     private String target;
 
     /**
-     * type1:[{"value": 2, "questionId": "1636340836291145729"}]
+     * type1:{"conditions": [{"value": 6, "questionId": "q10001"}]}
+     * type2:{"score": 5, "questions": ["1638143859594539009", "q10001", "q10003", "q10002"]}
+     * type3:{"count": 5, "supports": [{"value": 6, "questionId": "q10001"}]}
      */
     @NotNull(message = "跳转条件不允许为空", groups = {AddGroup.class, UpdateGroup.class})
     private Map<String, Object> conditionJson;
+
+    /**
+     * 排序序号
+     */
+    private Integer serialNum;
 
     /**
      * type1:每个conditionJson的map都要指定选项和题目
@@ -80,7 +87,17 @@ public class SkipForm extends BaseForm<Skip> {
             }
             //判断选中数量时
             if (this.type == 3) {
-
+                List<Map<String, Object>> supports = (List<Map<String, Object>>) this.conditionJson.get("supports");
+                Integer count = (Integer) this.conditionJson.get("count");
+                if (supports == null || supports.size() == 0 || count == null) {
+                    return false;
+                }
+                //属性残缺，不行
+                for (Map<String, Object> map : supports) {
+                    if (StringUtils.isEmpty((String) map.get("value")) || StringUtils.isEmpty((String) map.get("questionId"))) {
+                        return false;
+                    }
+                }
             }
             return true;
         } catch (Exception e) {

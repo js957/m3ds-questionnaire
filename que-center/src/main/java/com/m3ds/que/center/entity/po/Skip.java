@@ -46,6 +46,11 @@ public class Skip extends BasePo<Skip> {
     private String target;
 
     /**
+     * 排序序号
+     */
+    private Integer serialNum;
+
+    /**
      * 跳转条件
      */
     @TableField(typeHandler = JacksonTypeHandler.class)

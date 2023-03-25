@@ -44,7 +44,7 @@
              `skip` s ON q.id = s.que_id AND s.deleted = 0
         WHERE q.id = #{id}
           AND q.deleted = 0
-        ORDER BY q.serial_num
+        ORDER BY q.serial_num,s.serial_num
     </select>
     <select id="queryByModule" resultMap="baseResultMap">
         SELECT q.id               q_id,
@@ -67,6 +67,6 @@
              `skip` s ON q.id = s.que_id AND s.deleted = 0
         WHERE q.module_id = #{moduleId}
           AND q.deleted = 0
-        ORDER BY q.serial_num
+        ORDER BY q.serial_num,s.serial_num
     </select>
 </mapper>
