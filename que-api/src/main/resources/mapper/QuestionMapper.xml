@@ -23,6 +23,19 @@
                     typeHandler="com.m3ds.que.common.web.handler.JacksonTypeHandler"/>
         </collection>
     </resultMap>
+    <resultMap id="baseResultMap2" type="com.m3ds.que.center.entity.po.Question">
+        <id property="id" column="id"/>
+        <result property="moduleId" column="module_id"/>
+        <result property="questionNo" column="question_no"/>
+        <result property="queType" column="que_type"/>
+        <result property="optType" column="opt_type"/>
+        <result property="issue" column="issue"/>
+        <result property="note" column="note"/>
+        <result property="answers" column="answers"/>
+        <result property="serialNum" column="serial_num"/>
+        <result property="optData" column="opt_data"
+                typeHandler="com.m3ds.que.common.web.handler.JacksonTypeHandler"/>
+    </resultMap>
     <select id="queryQuestionWithSkip" resultMap="baseResultMap">
         SELECT q.id               q_id,
                q.question_no      q_question_no,
@@ -68,5 +81,16 @@
         WHERE q.module_id = #{moduleId}
           AND q.deleted = 0
         ORDER BY q.serial_num,s.serial_num
+    </select>
+    <select id="questionListByTemplate" resultMap="baseResultMap2">
+        SELECT
+            *
+        FROM
+            question q
+                LEFT JOIN
+            module m ON q.module_id = m.id
+        WHERE
+            m.template_id = #{templateId}
+        ORDER BY m.serial_num , q.serial_num
     </select>
 </mapper>
