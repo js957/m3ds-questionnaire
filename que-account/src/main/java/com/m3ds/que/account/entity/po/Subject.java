@@ -72,8 +72,5 @@ public class Subject extends BasePo<Subject> {
      */
     private String result;
 
-    /**
-     * 1男2女
-     */
-    private Integer gender;
+
 }

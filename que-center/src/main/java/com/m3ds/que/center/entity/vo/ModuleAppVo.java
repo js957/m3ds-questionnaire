@@ -43,4 +43,9 @@ public class ModuleAppVo extends BaseVo<Module> {
      * 模块下的问题列表
      */
     private List<QuestionAppVo> questions;
+
+    /**
+     * 排序序号
+     */
+    private Long serialNum;
 }

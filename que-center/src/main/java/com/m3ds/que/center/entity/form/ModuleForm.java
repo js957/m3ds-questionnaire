@@ -55,7 +55,7 @@ public class ModuleForm extends BaseForm<Module> {
      * 排序序号
      */
     @ApiModelProperty(value = "模块排序的序号")
-    private Integer serialNum;
+    private Long serialNum;
 
     /**
      * 若有排序，则排序序号不能为空

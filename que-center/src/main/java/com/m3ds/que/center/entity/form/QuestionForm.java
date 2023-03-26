@@ -77,7 +77,7 @@ public class QuestionForm extends BaseForm<Question> {
      * 排序序号
      */
     @NotNull(message = "序号不为空")
-    private Integer serialNum;
+    private Long serialNum;
 
     /**
      * 跳转规则列表

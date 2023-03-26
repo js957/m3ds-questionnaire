@@ -79,10 +79,6 @@ public class SubjectForm extends BaseForm<Subject> {
     @ApiModelProperty(value = "诊断的疾病集合")
     private String result;
 
-    /**
-     * 1男2女
-     */
-    @NotNull(message = "性别不能为空")
-    private Integer gender;
+
 
 }

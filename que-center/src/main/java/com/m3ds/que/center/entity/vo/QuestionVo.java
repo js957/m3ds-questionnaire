@@ -79,5 +79,5 @@ public class QuestionVo extends BaseVo<Question> {
     /**
      * 序号
      */
-    private Integer serialNum;
+    private Long serialNum;
 }

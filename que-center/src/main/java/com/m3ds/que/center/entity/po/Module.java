@@ -51,5 +51,5 @@ public class Module extends BasePo<Module> {
     /**
      * 排序序号
      */
-    private Integer serialNum;
+    private Long serialNum;
 }

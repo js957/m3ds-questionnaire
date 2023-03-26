@@ -48,7 +48,7 @@ public class Skip extends BasePo<Skip> {
     /**
      * 排序序号
      */
-    private Integer serialNum;
+    private Long serialNum;
 
     /**
      * 跳转条件

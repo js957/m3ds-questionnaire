@@ -52,7 +52,7 @@ public class SkipForm extends BaseForm<Skip> {
     /**
      * 排序序号
      */
-    private Integer serialNum;
+    private Long serialNum;
 
     /**
      * type1:每个conditionJson的map都要指定选项和题目

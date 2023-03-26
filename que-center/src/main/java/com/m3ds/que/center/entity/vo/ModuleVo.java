@@ -48,6 +48,6 @@ public class ModuleVo extends BaseVo<Module> {
     /**
      * 排序序号
      */
-    private Integer serialNum;
+    private Long serialNum;
 
 }

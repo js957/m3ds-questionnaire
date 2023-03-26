@@ -92,6 +92,6 @@ public class Question extends BasePo<Question> {
     /**
      * 序号
      */
-    private Integer serialNum;
+    private Long serialNum;
 
 }

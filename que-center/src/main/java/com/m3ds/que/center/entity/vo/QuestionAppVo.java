@@ -21,7 +21,7 @@ import java.util.Map;
 @TableName(value = "question", autoResultMap = true)
 public class QuestionAppVo extends BaseVo<Question> {
 
-    public QuestionAppVo(Question question){
+    public QuestionAppVo(Question question) {
         BeanUtils.copyProperties(question, this);
     }
 
@@ -59,7 +59,7 @@ public class QuestionAppVo extends BaseVo<Question> {
      * 选项
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
-    private Map<String,Object> optData;
+    private Map<String, Object> optData;
 
     /**
      * 跳转规则
@@ -71,5 +71,10 @@ public class QuestionAppVo extends BaseVo<Question> {
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
     private List<String> refIds;
+
+    /**
+     * 序号
+     */
+    private Long serialNum;
 
 }
