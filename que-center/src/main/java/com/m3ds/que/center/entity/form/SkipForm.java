@@ -5,7 +5,9 @@ import com.m3ds.que.common.web.entity.form.BaseForm;
 import com.m3ds.que.common.web.validator.group.AddGroup;
 import com.m3ds.que.common.web.validator.group.UpdateGroup;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +24,7 @@ public class SkipForm extends BaseForm<Skip> {
     private String description;
 
     /**
-     * 跳转至题目为0	跳转至诊断框为1	跳转至子问题为2	跳转至模块为3	跳转至诊断程序问题4
+     * 1：按各题选项跳转，2：按答题分数跳转，3：按选中数量跳转
      */
     @NotNull(message = "类型不许为空", groups = {AddGroup.class})
     private Integer type;
@@ -40,8 +42,66 @@ public class SkipForm extends BaseForm<Skip> {
     private String target;
 
     /**
-     * 跳转条件
+     * type1:{"conditions": [{"value": 6, "questionId": "q10001"}]}
+     * type2:{"score": 5, "questions": ["1638143859594539009", "q10001", "q10003", "q10002"]}
+     * type3:{"count": 5, "supports": [{"value": 6, "questionId": "q10001"}]}
      */
     @NotNull(message = "跳转条件不允许为空", groups = {AddGroup.class, UpdateGroup.class})
-    private List<Map<String, Object>> conditionJson;
+    private Map<String, Object> conditionJson;
+
+    /**
+     * 排序序号
+     */
+    private Integer serialNum;
+
+    /**
+     * type1:每个conditionJson的map都要指定选项和题目
+     */
+    @AssertTrue(message = "判断条件不合规，请检查是否存在未填选项")
+    private Boolean isValid() {
+        //没有条件，不行
+        try {
+            if (this.conditionJson.isEmpty()) {
+                return false;
+            }
+            //判断复杂条件时
+            if (this.type == 1) {
+                List<Map<String, Object>> conditions = (List<Map<String, Object>>) this.conditionJson.get("conditions");
+                if (conditions == null || conditions.size() == 0) {
+                    return false;
+                }
+                //属性残缺，不行
+                for (Map<String, Object> map : conditions) {
+                    if (StringUtils.isEmpty((String) map.get("value")) || StringUtils.isEmpty((String) map.get("questionId"))) {
+                        return false;
+                    }
+                }
+            }
+            //判断分数时
+            if (this.type == 2) {
+                List<String> questions = (List<String>) this.conditionJson.get("questions");
+                Integer score = (Integer) this.conditionJson.get("questions");
+                if (questions == null || questions.size() == 0 || score == null) {
+                    return false;
+                }
+            }
+            //判断选中数量时
+            if (this.type == 3) {
+                List<Map<String, Object>> supports = (List<Map<String, Object>>) this.conditionJson.get("supports");
+                Integer count = (Integer) this.conditionJson.get("count");
+                if (supports == null || supports.size() == 0 || count == null) {
+                    return false;
+                }
+                //属性残缺，不行
+                for (Map<String, Object> map : supports) {
+                    if (StringUtils.isEmpty((String) map.get("value")) || StringUtils.isEmpty((String) map.get("questionId"))) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }
