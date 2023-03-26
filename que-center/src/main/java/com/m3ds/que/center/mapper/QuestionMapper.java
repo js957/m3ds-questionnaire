@@ -27,4 +27,11 @@ public interface QuestionMapper extends BaseMapper<Question> {
      * @description 根据模块id查询问题(包括之下的skip)
      */
     List<QuestionVo> queryByModule(String moduleId);
+
+    /**
+     * 根据templateId查其下所有问题
+     * @param templateId 模板id
+     * @return
+     */
+    List<Question> questionListByTemplate(String templateId);
 }

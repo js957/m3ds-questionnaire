@@ -139,4 +139,18 @@ public class TemplateController {
         return Result.success();
     }
 
+    /**
+     * @param subjectId 受试者id
+     * @return com.m3ds.que.common.core.vo.Result
+     * @author tangzheng
+     * @date 2023/3/10 16:55
+     * @description 根据受试者查模板列表
+     */
+    @GetMapping(value = "/history/{subjectId}")
+    @Login
+    public Result queryHistoryBySubjectId(@PathVariable String subjectId) {
+        List<TemplateVo> templateList = templateServiceImpl.queryHistoryBySubjectId(subjectId);
+        return Result.success(templateList);
+    }
+
 }

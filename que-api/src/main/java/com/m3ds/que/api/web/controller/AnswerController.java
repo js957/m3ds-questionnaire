@@ -12,12 +12,14 @@ import com.m3ds.que.common.core.vo.Result;
 import com.m3ds.que.common.web.validator.ValidatorUtils;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -84,6 +86,21 @@ public class AnswerController {
         }
         answerServiceImpl.saveBatch(answers);
         return Result.success();
+    }
+
+    /**
+     * @param subjectId 要保存的回答结果对象们
+     * @param templateId 要保存的回答结果对象们
+     * 根据受试者和模板查询问卷完整记录
+     */
+    @GetMapping("/answerHistory")
+    @Login
+    public Result answerHistory(String subjectId, String templateId) {
+        if (StringUtils.isEmpty(subjectId) || StringUtils.isEmpty(templateId)){
+            return Result.fail("参数不完整");
+        }
+        List <Map<String,Object>> resultList = answerServiceImpl.answerHistory(subjectId, templateId);
+        return Result.success(resultList);
     }
 
 }

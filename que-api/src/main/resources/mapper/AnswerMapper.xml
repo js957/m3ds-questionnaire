@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ynufrd.psyquestioner.mapper.AnswerMapper">
-
+<mapper namespace="com.m3ds.que.center.mapper.AnswerMapper">
+    <resultMap id="baseResultMap" type="com.m3ds.que.center.entity.vo.AnswerVo">
+        <id property="id" column="id"/>
+        <result property="moduleId" column="module_id"/>
+        <result property="queResult" column="que_result"
+                typeHandler="com.m3ds.que.common.web.handler.JacksonTypeHandler"/>
+    </resultMap>
+    <select id="answerHistory" resultMap="baseResultMap">
+        SELECT
+            a.id, a.module_id, a.que_result
+        FROM
+            answer a
+                LEFT JOIN
+            module m ON a.module_id = m.id
+                LEFT JOIN
+            template t ON m.template_id = t.id
+        where a.sub_id = #{subjectId} and template_id = #{templateId}
+    </select>
 </mapper>
