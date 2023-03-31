@@ -14,6 +14,7 @@ import com.m3ds.que.center.service.ISkipService;
 import com.m3ds.que.common.core.vo.Result;
 import com.m3ds.que.common.web.validator.ValidatorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -42,12 +43,15 @@ public class SkipController {
      * @date 2023/3/10 14:55
      * @description 保存跳转规则 有事务
      */
-    @PostMapping("/saveBatch")
+    @PostMapping("/saveBatch/{queId}")
     @Login
     @Transactional
-    public Result saveBatch(@RequestBody @Valid List<SkipForm> skipRules) {
-        if (skipRules == null || skipRules.size() == 0){
-            return Result.success();
+    public Result saveBatch(@RequestBody @Valid List<SkipForm> skipRules, @PathVariable String queId) {
+        if (skipRules == null){
+            skipRules = new ArrayList<>();
+        }
+        if (StringUtils.isEmpty(queId)){
+            return Result.fail("系统错误：没有找到该问题");
         }
         DefaultIdentifierGenerator generator = new DefaultIdentifierGenerator();
         List<Skip> skips = new ArrayList<>();
@@ -56,14 +60,14 @@ public class SkipController {
             ValidatorUtils.validateEntity(skipRule);
             Skip skip = skipRule.toPo(Skip.class);
             String skipId = String.valueOf(generator.nextId(skip));
+            skip.setQueId(queId);
             skip.setId(skipId);
             skipIds.add(skipId);
             skips.add(skip);
         }
         //里面的对象要自己拿出来验证,顺便把form类转为po
         Question question = new Question();
-        String queId = skipRules.get(0).getQueId();
-        question.setId(skipRules.get(0).getQueId());
+        question.setId(queId);
         question.setSkipRuleIds(skipIds);
         questionServiceImpl.updateById(question);
         QueryWrapper<Skip> queryWrapper = new QueryWrapper<>();
