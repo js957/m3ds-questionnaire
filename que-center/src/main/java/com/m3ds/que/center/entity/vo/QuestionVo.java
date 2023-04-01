@@ -27,6 +27,11 @@ public class QuestionVo extends BaseVo<Question> {
     }
 
     /**
+     * moduleNo
+     */
+    private String moduleNo;
+
+    /**
      * 问题的编号用于线索
      */
     private String questionNo;
