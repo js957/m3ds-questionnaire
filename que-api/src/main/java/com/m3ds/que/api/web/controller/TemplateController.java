@@ -7,8 +7,10 @@ import com.m3ds.que.api.annotation.Login;
 import com.m3ds.que.center.entity.form.TemplateForm;
 import com.m3ds.que.center.entity.form.TemplateQueryForm;
 import com.m3ds.que.center.entity.param.TemplateQueryParam;
+import com.m3ds.que.center.entity.po.SubjectQue;
 import com.m3ds.que.center.entity.po.Template;
 import com.m3ds.que.center.entity.vo.TemplateVo;
+import com.m3ds.que.center.service.ISubjectQueService;
 import com.m3ds.que.center.service.ITemplateService;
 import com.m3ds.que.common.core.vo.Result;
 import io.swagger.annotations.ApiImplicitParam;
@@ -32,6 +34,9 @@ import java.util.stream.Collectors;
 public class TemplateController {
     @Resource
     private ITemplateService templateServiceImpl;
+
+    @Resource
+    private ISubjectQueService subjectQueServiceImpl;
 
     /**
      * @param id 表主键
@@ -83,6 +88,30 @@ public class TemplateController {
     public Result query(@Valid TemplateQueryParam templateQueryParam) {
         QueryWrapper<Template> queryWrapper = templateQueryParam.build();
         return Result.success((templateServiceImpl.list(queryWrapper).stream().map(TemplateVo::new)).collect(Collectors.toList()));
+    }
+
+    /**
+    *@Param:
+    *@Author: wjs
+    *@date: 20:34
+    */
+    @ApiOperation(value = "根据受试者id返回模板", notes = "根据受试者id返回模板")
+    @ApiImplicitParams({
+        @ApiImplicitParam(paramType = "path", name = "id", value = "根据受试者id返回模板", required = true, dataType = "string")
+    })
+    @PutMapping(value = "subject/{id}")
+    @Login
+    public Result getTemplateBySubject(@PathVariable String id) {
+        List<SubjectQue> subjectQues = subjectQueServiceImpl.list(new QueryWrapper<SubjectQue>().eq("subject_id", id));
+        List<Template> templateList = templateServiceImpl.list(new QueryWrapper<Template>()
+                .in("id", subjectQues.stream().map(SubjectQue::getTemplateId).collect(Collectors.toList())));
+        List<TemplateVo> templateVos = templateList.stream()
+                .map(template -> subjectQues.stream()
+                        .filter(subjectQue -> template.getId().equals(subjectQue.getTemplateId()))
+                        .findFirst()
+                        .map(subjectQue -> {return new TemplateVo(template.getId(), template.getTemplateName(), template.getDescription(), subjectQue.getState());})
+                                .orElse(null)).collect(Collectors.toList());
+        return Result.success(templateVos);
     }
 
     /**

@@ -28,6 +28,12 @@ public class Answer extends BasePo<Answer> {
     private String subId;
 
     /**
+     * 受试者id
+     */
+    private String subQueId;
+
+
+    /**
      * 诊断模块id
      */
     private String moduleId;

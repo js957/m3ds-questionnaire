@@ -10,15 +10,20 @@ import com.m3ds.que.account.entity.po.Subject;
 import com.m3ds.que.account.entity.vo.SubjectVo;
 import com.m3ds.que.account.service.ISubjectService;
 import com.m3ds.que.api.annotation.Login;
+import com.m3ds.que.center.entity.po.SubjectQue;
+import com.m3ds.que.center.service.ISubjectQueService;
+import com.m3ds.que.center.service.ITemplateService;
 import com.m3ds.que.common.core.vo.Result;
 import com.m3ds.que.common.web.validator.ValidatorUtils;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +41,12 @@ import java.util.stream.Collectors;
 public class SubjectController {
     @Resource
     private ISubjectService subjectServiceImpl;
+
+    @Resource
+    private ISubjectQueService subjectQueServiceImpl;
+
+    @Resource
+    private ITemplateService templateServiceImpl;
 
     /**
      * @param id 表主键
@@ -73,6 +84,21 @@ public class SubjectController {
         return Result.success(page.setRecords((List) page.getRecords().stream().map(t -> new SubjectVo((Subject) t)).collect(Collectors.toList())));
     }
 
+
+    @ApiOperation(value = "根据管理员查询受试者", notes = "根据管理员查询受试者")
+    @ApiImplicitParam(paramType = "path", name = "id", value = "受试者id", required = true, dataType = "string")
+    @GetMapping("/admin")
+    @Login
+    public Result byAdmin(HttpServletRequest request) {
+        String adminId = String.valueOf(request.getAttribute("userId"));
+        return Result.success(subjectServiceImpl
+                .list(new QueryWrapper<Subject>()
+                        .eq("admin_id", adminId))
+                .stream().map(SubjectVo::new)
+                .collect(Collectors.toList()));
+    }
+
+
     /**
      * @param subjectQueryParam 受试者查询条件
      * @return com.m3ds.que.common.core.vo.Result
@@ -100,10 +126,21 @@ public class SubjectController {
     @ApiImplicitParam(paramType = "body", name = "subjectForm", value = "受试者的实体", required = true, dataType = "SubjectForm")
     @PostMapping
     @Login
-    public Result save(@RequestBody @Valid SubjectForm subjectForm, @RequestAttribute String userId) {
+    public Result save(@RequestBody @Valid SubjectForm subjectForm, @RequestAttribute String userId, HttpServletRequest request) {
+        if(StringUtils.isEmpty(userId)){
+            userId = String.valueOf(request.getAttribute("userId"));
+        }
         Subject subject = subjectForm.toPo(Subject.class);
         subject.setAdminId(userId);
         subjectServiceImpl.save(subject);
+
+        // 0: 未完成
+        subjectQueServiceImpl.saveBatch(
+                templateServiceImpl
+                        .list()
+                        .stream()
+                        .map(template -> {return new SubjectQue(subject.getId(), template.getId(), 0);})
+                        .collect(Collectors.toList()));
         return Result.success();
     }
 
@@ -118,15 +155,29 @@ public class SubjectController {
     @ApiImplicitParam(paramType = "body", name = "subjectForms", value = "受试者的实体", required = true, dataType = "List<SubjectForm>")
     @PostMapping("/saveBatch")
     @Login
-    public Result saveBatch(@RequestBody List<SubjectForm> subjectForms, @RequestAttribute String userId) {
+    public Result saveBatch(@RequestBody List<SubjectForm> subjectForms, @RequestAttribute String userId, HttpServletRequest request) {
+        if(StringUtils.isEmpty(userId)){
+            userId = String.valueOf(request.getAttribute("userId"));
+        }
         List<Subject> subjects = new ArrayList<>();
+        String finalUserId = userId;
         subjectForms.forEach(s ->{
             ValidatorUtils.validateEntity(s);
             Subject subject = s.toPo(Subject.class);
-            subject.setAdminId(userId);
+            subject.setAdminId(finalUserId);
             subjects.add(subject);
         });
         subjectServiceImpl.saveBatch(subjects);
+
+        subjects.forEach(subject -> {
+            subjectQueServiceImpl.saveBatch(
+                templateServiceImpl
+                        .list()
+                        .stream()
+                        .map(template -> {return new SubjectQue(subject.getId(), template.getId(), 0);})
+                        .collect(Collectors.toList()));
+        });
+
         return Result.success();
     }
 

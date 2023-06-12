@@ -35,6 +35,11 @@ public class SubjectQueryForm extends BaseQueryForm<SubjectQueryParam> {
     private LocalDate begindate;
 
     /**
+     * 负责的管理员id
+     */
+    private String adminId;
+
+    /**
      * 性别
      */
     @ApiModelProperty(value = "性别")
@@ -45,6 +50,8 @@ public class SubjectQueryForm extends BaseQueryForm<SubjectQueryParam> {
      */
     @ApiModelProperty(value = "问卷进行状态（0,未完成，1，进行中，2，已完成，3，已终止）")
     private Integer state;
+
+
 
 
 }

@@ -32,6 +32,11 @@ public class SubjectQueryParam extends BaseParam<Subject> {
     private LocalDate begindate;
 
     /**
+     * 负责的管理员id
+     */
+    private String adminId;
+
+    /**
      * 性别
      */
     private String gender;
