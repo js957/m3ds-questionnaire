@@ -3,7 +3,10 @@ package com.m3ds.que.api.web.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.m3ds.que.account.entity.po.Subject;
+import com.m3ds.que.account.service.ISubjectService;
 import com.m3ds.que.api.annotation.Login;
+import com.m3ds.que.center.constant.WebConstants;
 import com.m3ds.que.center.entity.form.TemplateForm;
 import com.m3ds.que.center.entity.form.TemplateQueryForm;
 import com.m3ds.que.center.entity.param.TemplateQueryParam;
@@ -37,6 +40,9 @@ public class TemplateController {
 
     @Resource
     private ISubjectQueService subjectQueServiceImpl;
+
+    @Resource
+    private ISubjectService subjectServiceImpl;
 
     /**
      * @param id 表主键
@@ -109,7 +115,13 @@ public class TemplateController {
                 .map(template -> subjectQues.stream()
                         .filter(subjectQue -> template.getId().equals(subjectQue.getTemplateId()))
                         .findFirst()
-                        .map(subjectQue -> {return new TemplateVo(template.getId(), template.getTemplateName(), template.getDescription(), subjectQue.getState());})
+                        .map(subjectQue -> {
+                            return new TemplateVo(template.getId(),
+                                    subjectQue.getId(),
+                                    subjectQue.getSubjectId(),
+                                    template.getTemplateName(),
+                                    template.getDescription(),
+                                    subjectQue.getState());})
                                 .orElse(null)).collect(Collectors.toList());
         return Result.success(templateVos);
     }
@@ -128,6 +140,11 @@ public class TemplateController {
     public Result save(@RequestBody @Valid TemplateForm templateForm) {
         Template template = templateForm.toPo(Template.class);
         templateServiceImpl.save(template);
+        // 拿到所有的被试
+        List<SubjectQue> subjectQues = subjectServiceImpl.list().stream().map(subject -> {
+            return new SubjectQue(subject.getId(), template.getId(), WebConstants.subjectQueState.Incomplete.getIndex());
+        }).collect(Collectors.toList());
+        subjectQueServiceImpl.saveBatch(subjectQues);
         return Result.success(template.getId());
     }
 
@@ -165,6 +182,10 @@ public class TemplateController {
     @Login
     public Result delete(@PathVariable String id) {
         templateServiceImpl.removeById(id);
+
+        subjectQueServiceImpl.remove(new QueryWrapper<SubjectQue>()
+                .eq("template_id", id)
+                .ne("state", WebConstants.subjectQueState.Completed_and_submitted));
         return Result.success();
     }
 

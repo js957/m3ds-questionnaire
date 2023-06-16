@@ -1,6 +1,7 @@
 package com.m3ds.que.center.entity.po;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.m3ds.que.common.web.entity.po.BasePo;
 import com.m3ds.que.common.web.handler.JacksonTypeHandler;
 import lombok.Data;
@@ -55,5 +56,8 @@ public class Skip extends BasePo<Skip> {
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
     private Map<String, Object> conditionJson;
+
+    @TableLogic
+    private Boolean deleted;
 
 }

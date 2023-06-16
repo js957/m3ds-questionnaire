@@ -50,4 +50,14 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
     public List<Map<String, Object>> querySimplifiedTreeForSkip(String templateId) {
         return baseMapper.querySimplifiedTreeForSkip(templateId);
     }
+
+    @Override
+    public List<Map<String, Object>> querySimplifiedTreeByModule(String moduleId) {
+        return baseMapper.querySimplifiedTreeByModule(moduleId);
+    }
+
+    @Override
+    public List<Map<String, Object>> querySimplifiedTreeForSkipByModule(String moduleId) {
+        return baseMapper.querySimplifiedTreeForSkipByModule(moduleId);
+    }
 }

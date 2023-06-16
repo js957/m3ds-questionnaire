@@ -89,11 +89,10 @@ public class SubjectController {
     @ApiImplicitParam(paramType = "path", name = "id", value = "受试者id", required = true, dataType = "string")
     @GetMapping("/admin")
     @Login
-    public Result byAdmin(HttpServletRequest request) {
-        String adminId = String.valueOf(request.getAttribute("userId"));
+    public Result byAdmin(@RequestAttribute String userId) {
         return Result.success(subjectServiceImpl
                 .list(new QueryWrapper<Subject>()
-                        .eq("admin_id", adminId))
+                        .eq("admin_id", userId))
                 .stream().map(SubjectVo::new)
                 .collect(Collectors.toList()));
     }
@@ -110,8 +109,9 @@ public class SubjectController {
     @ApiImplicitParam(paramType = "query", name = "subjectQueryParam", value = "受试者的实体", required = true, dataType = "SubjectQueryParam")
     @GetMapping
     @Login
-    public Result query(SubjectQueryParam subjectQueryParam) {
+    public Result query(SubjectQueryParam subjectQueryParam, @RequestAttribute String userId) {
         QueryWrapper<Subject> queryWrapper = subjectQueryParam.build();
+        queryWrapper.eq("admin_id", userId);
         return Result.success((subjectServiceImpl.list(queryWrapper).stream().map(SubjectVo::new)).collect(Collectors.toList()));
     }
 
@@ -127,9 +127,6 @@ public class SubjectController {
     @PostMapping
     @Login
     public Result save(@RequestBody @Valid SubjectForm subjectForm, @RequestAttribute String userId, HttpServletRequest request) {
-        if(StringUtils.isEmpty(userId)){
-            userId = String.valueOf(request.getAttribute("userId"));
-        }
         Subject subject = subjectForm.toPo(Subject.class);
         subject.setAdminId(userId);
         subjectServiceImpl.save(subject);
@@ -156,15 +153,11 @@ public class SubjectController {
     @PostMapping("/saveBatch")
     @Login
     public Result saveBatch(@RequestBody List<SubjectForm> subjectForms, @RequestAttribute String userId, HttpServletRequest request) {
-        if(StringUtils.isEmpty(userId)){
-            userId = String.valueOf(request.getAttribute("userId"));
-        }
         List<Subject> subjects = new ArrayList<>();
-        String finalUserId = userId;
         subjectForms.forEach(s ->{
             ValidatorUtils.validateEntity(s);
             Subject subject = s.toPo(Subject.class);
-            subject.setAdminId(finalUserId);
+            subject.setAdminId(userId);
             subjects.add(subject);
         });
         subjectServiceImpl.saveBatch(subjects);

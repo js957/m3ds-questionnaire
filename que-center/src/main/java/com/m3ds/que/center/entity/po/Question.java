@@ -1,6 +1,7 @@
 package com.m3ds.que.center.entity.po;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.m3ds.que.common.web.entity.po.BasePo;
 import com.m3ds.que.common.web.handler.JacksonTypeHandler;
@@ -93,5 +94,8 @@ public class Question extends BasePo<Question> {
      * 序号
      */
     private Long serialNum;
+
+    @TableLogic
+    private Boolean deleted;
 
 }

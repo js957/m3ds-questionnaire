@@ -4,7 +4,8 @@ public interface WebConstants {
     public enum subjectQueState {
         Incomplete("未完成", 0),
         InProgress("进行中", 1),
-        Completed("已完成", 2);
+        Completed_but_not_submitted("已完成未提交", 2),
+        Completed_and_submitted("已完成已提交", 3);
 
         private final String name;
         private final int index;

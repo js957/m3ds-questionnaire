@@ -2,6 +2,7 @@ package com.m3ds.que.common.web.validator;
 
 
 import com.m3ds.que.common.core.exception.BaseException;
+import com.m3ds.que.common.core.exception.ValidateFieldException;
 import com.m3ds.que.common.web.exception.ControllerErrorType;
 
 
@@ -27,7 +28,7 @@ public class ValidatorUtils {
      *
      * @param object 待校验对象
      * @param groups 待校验的组
-     * @throws BaseException 校验不通过，BaseException
+     * @throws ValidateFieldException 校验不通过，ValidateFieldException
      */
     public static void validateEntity(Object object, Class<?>... groups)
             throws BaseException {
@@ -37,9 +38,8 @@ public class ValidatorUtils {
             for (ConstraintViolation<Object> constraint : constraintViolations) {
                 msg.append(constraint.getMessage());
             }
-            ControllerErrorType error = ControllerErrorType.FIELD_VERIFICATION_ERROR;
-            error.setMsg(msg.toString());
-            throw new BaseException(error);
+
+            throw new ValidateFieldException(msg.toString());
         }
     }
 
@@ -51,8 +51,7 @@ public class ValidatorUtils {
             for (ConstraintViolation<Object> constraint : constraintViolations) {
                 msg.append(constraint.getMessageTemplate()).append("<br>");
             }
-            ControllerErrorType error = ControllerErrorType.FIELD_VERIFICATION_ERROR;
-            throw new BaseException(error, msg.toString());
+            throw new ValidateFieldException(msg.toString());
         }
     }
 }

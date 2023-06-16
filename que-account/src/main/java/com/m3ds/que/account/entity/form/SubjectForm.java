@@ -37,7 +37,7 @@ public class SubjectForm extends BaseForm<Subject> {
      * 性别
      */
     @ApiModelProperty(value = "性别")
-    private String gender;
+    private Integer gender;
 
     /**
      * 出生日期

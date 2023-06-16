@@ -1,6 +1,7 @@
 package com.m3ds.que.center.entity.po;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.m3ds.que.common.web.entity.po.BasePo;
 import com.m3ds.que.common.web.handler.JacksonTypeHandler;
@@ -49,4 +50,6 @@ public class Answer extends BasePo<Answer> {
     @TableField(typeHandler = JacksonTypeHandler.class)
     private Map<String, Object> queResult;
 
+    @TableLogic
+    private Boolean deleted;
 }

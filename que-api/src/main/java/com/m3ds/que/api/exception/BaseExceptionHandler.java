@@ -2,6 +2,7 @@ package com.m3ds.que.api.exception;
 
 import cn.hutool.core.exceptions.ValidateException;
 import com.m3ds.que.common.core.exception.ResponseErrorType;
+import com.m3ds.que.common.core.exception.ValidateFieldException;
 import com.m3ds.que.common.core.vo.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
@@ -51,6 +52,13 @@ public class BaseExceptionHandler {
     @ExceptionHandler(value = MissingServletRequestParameterException.class)
     public Object exceptionHandler(MissingServletRequestParameterException e) {
         log.error("System Exception:{}", e.getMessage());
+        return Result.fail(e.getMessage());
+    }
+
+    @ResponseBody
+    @ExceptionHandler(value = ValidateFieldException.class)
+    public Object exceptionHandler(ValidateFieldException e) {
+        log.error(e.getMessage(), e);
         return Result.fail(e.getMessage());
     }
 

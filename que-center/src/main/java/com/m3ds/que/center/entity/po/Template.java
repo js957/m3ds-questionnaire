@@ -1,6 +1,7 @@
 package com.m3ds.que.center.entity.po;
 
 
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.m3ds.que.common.web.entity.po.BasePo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -32,4 +33,6 @@ public class Template extends BasePo<Template> {
     private String description;
 
 
+    @TableLogic
+    private Boolean deleted;
 }

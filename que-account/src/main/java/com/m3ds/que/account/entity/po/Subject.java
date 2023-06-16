@@ -1,6 +1,7 @@
 package com.m3ds.que.account.entity.po;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.m3ds.que.common.web.entity.po.BasePo;
 import com.m3ds.que.common.web.handler.JacksonTypeHandler;
@@ -40,7 +41,7 @@ public class Subject extends BasePo<Subject> {
     /**
      * 性别
      */
-    private String gender;
+    private Integer gender;
 
     /**
      * 负责的管理员id
@@ -62,15 +63,17 @@ public class Subject extends BasePo<Subject> {
      */
     private LocalDateTime endTime;
 
-    /**
-     * 问卷进行状态（0,未完成，1，进行中，2，已完成，3，已终止）
-     */
-    private Integer state;
+//    /**
+//     * 问卷进行状态（0,未完成，1，进行中，2，已完成，3，已终止）
+//     */
+//    private Integer state;
 
     /**
      * 诊断的疾病集合
      */
     private String result;
 
+    @TableLogic
+    private Boolean deleted;
 
 }

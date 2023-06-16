@@ -100,4 +100,30 @@
           AND m.deleted = 0
         ORDER BY m.sorted DESC, m.serial_num, q.serial_num
     </select>
+    <select id="querySimplifiedTreeByModule" resultMap="simplifiedResultMap">
+        SELECT m.id          m_id,
+               m.module_no   m_no,
+               q.id          q_id,
+               q.question_no q_no
+        FROM module m
+                 LEFT JOIN
+             question q ON m.id = q.module_id AND q.deleted = 0
+        WHERE m.id = #{moduleId}
+          AND m.deleted = 0
+        ORDER BY m.sorted DESC, m.serial_num, q.serial_num
+    </select>
+    <select id="querySimplifiedTreeForSkipByModule" resultMap="simplifiedResultMapForSkip">
+        SELECT m.id          m_id,
+               m.module_no   m_no,
+               q.id          q_id,
+               q.question_no q_no,
+               q.opt_data    q_opt_data
+        FROM module m
+                 LEFT JOIN
+             question q ON m.id = q.module_id AND q.deleted = 0
+        WHERE m.id = #{moduleId}
+          and q.opt_type = 'RADIO'
+          AND m.deleted = 0
+        ORDER BY m.sorted DESC, m.serial_num, q.serial_num
+    </select>
 </mapper>

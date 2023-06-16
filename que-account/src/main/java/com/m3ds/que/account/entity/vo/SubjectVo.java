@@ -57,15 +57,20 @@ public class SubjectVo extends BaseVo<Subject> {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime endTime;
 
-    /**
-     * 问卷进行状态（0,未完成，1，进行中，2，已完成，3，已终止）
-     */
-    private Integer state;
+//    /**
+//     * 问卷进行状态（0,未完成，1，进行中，2，已完成，3，已终止）
+//     */
+//    private Integer state;
 
     /**
      * 诊断的疾病集合
      */
     private String result;
+
+    /**
+     * 负责的管理员id
+     */
+    private String adminId;
 
     /**
      * 1男2女

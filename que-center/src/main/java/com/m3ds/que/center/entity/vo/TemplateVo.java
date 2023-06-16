@@ -21,6 +21,17 @@ public class TemplateVo extends BaseVo<Template> {
     }
 
     /**
+     * 受试者问卷Id
+     */
+    private String subjectQueId;
+
+    /**
+     * 受试者Id
+     */
+    private String subjectId;
+
+
+    /**
      * 模板名
      */
     private String templateName;
@@ -30,14 +41,17 @@ public class TemplateVo extends BaseVo<Template> {
      */
     private String description;
 
+
     /**
      * 问卷状态
      */
     private Integer state;
 
 
-    public TemplateVo(String id, String templateName, String description, Integer state) {
+    public TemplateVo(String id, String subjectQueId, String subjectId, String templateName, String description, Integer state) {
         this.setId(id);
+        this.subjectQueId = subjectQueId;
+        this.subjectId = subjectId;
         this.templateName = templateName;
         this.description = description;
         this.state = state;

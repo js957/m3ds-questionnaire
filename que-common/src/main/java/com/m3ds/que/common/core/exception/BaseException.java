@@ -20,6 +20,7 @@ public class BaseException extends RuntimeException {
     }
 
     public BaseException(ErrorType errorType) {
+        super(errorType.getMsg());
         this.errorType = errorType;
     }
 

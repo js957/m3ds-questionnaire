@@ -35,8 +35,5 @@ public class BasePo<T> extends Model{
     @TableField(fill = FieldFill.INSERT_UPDATE)
     @JsonFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     private Date updatedTime;
-
-    @TableLogic
-    private Boolean deleted;
 }
 
